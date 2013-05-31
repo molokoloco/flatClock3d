@@ -11,5 +11,5 @@ No image, no webGL, no native !
  
 With this prototype,  on desktop browsers you can move around  the 3D CSS clock model with your mouse. On mobile browsers, rotation is triggered by the mobile orientation …
  
-Crédit : The original code to 3D rotate a CSS box is taken from there : http://www.laplace2be.com/projects/phone/
+Crédit : The original code to 3D rotate a CSS box is taken from there : http://www.laplace2be.com/projects/phone/  
 GPL/MIT/Copyleft - [@molokoloco](https://twitter.com/#!/molokoloco/) 2013 - <http://b2bweb.fr>
