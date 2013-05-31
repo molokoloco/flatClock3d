@@ -1,255 +1,400 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
+/*
+    // Mutli-screen flat 3D analogue clock (V2.4) with jQuery & CSS3 - No image, no webGL
+	// By molokoloco@gmail.com 10/10/2011 - Edit 3D 28/05/2013
+	// Demo : http://www.b2bweb.fr/framework/myClock/
+	// Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
+	// jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
+	// jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
+
+    // Colors : easy to change, Sizes and positions : more tricky
+    // Colors are based on a white semi-transparent theme :
+    // replace "255,255,255" by "0,0,0" to blackify... or wathever you want
+    // Mostly elements that need to be centered... are centered in JS,
+    // So only kee in mind your SIZES ((---MOD---))
+*/
+
+
+@font-face {
+    font-family: 'Orbitron';
+    font-style: normal;
+    font-weight: 400;
+    src: url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot);
+    src: local('Orbitron-Light'), local('Orbitron-Regular'),
+    url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/94ug0rEgQO_WuI_xKJMFc_esZW2xOQ-xsNqO47m55DA.woff) format('woff'),
+    url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot) format('embedded-opentype');
+}
+
+* {
+    margin:0;
+    padding:0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
 
 body {
-  padding:50px;
-  font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color:#777;
-  font-weight:300;
+    overflow: hidden;
+    background-color:#026873;
+    color: white;
+    color: rgba(255, 255, 255, 0.9);   
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color:#222;
-  margin:0 0 20px;
+a, a:visited {
+    color: rgba(200, 200, 200, 0.9);
+    text-decoration:none;
 }
 
-p, ul, ol, table, pre, dl {
-  margin:0 0 20px;
+/* ------- Fancy CSS3 background example ------ */
+/* http://leaverou.me/css3patterns/#cicada-stripes */
+
+body {
+    background-image:linear-gradient(0,rgba(255,255,255,.07) 50%,transparent 50%),linear-gradient(0,rgba(255,255,255,.13) 50%,transparent 50%),linear-gradient(0,transparent 50%,rgba(255,255,255,.17) 50%),linear-gradient(0,transparent 50%,rgba(255,255,255,.19) 50%);
+    background-image:-webkit-linear-gradient(0,rgba(255,255,255,.07) 50%,transparent 50%),-webkit-linear-gradient(0,rgba(255,255,255,.13) 50%,transparent 50%),-webkit-linear-gradient(0,transparent 50%,rgba(255,255,255,.17) 50%),-webkit-linear-gradient(0,transparent 50%,rgba(255,255,255,.19) 50%);
+    background-image:-moz-linear-gradient(0pt 50% ,rgba(255,255,255,0.07) 50%,transparent 50%),-moz-linear-gradient(0pt 50% ,rgba(255,255,255,0.13) 50%,transparent 50%),-moz-linear-gradient(0pt 50% ,transparent 50%,rgba(255,255,255,0.17) 50%),-moz-linear-gradient(0pt 50% ,transparent 50%,rgba(255,255,255,0.19) 50%);
+    background-image:o-linear-gradient(0,rgba(255,255,255,.07) 50%,transparent 50%),o-linear-gradient(0,rgba(255,255,255,.13) 50%,transparent 50%),-o-linear-gradient(0,transparent 50%,rgba(255,255,255,.17) 50%),-o-linear-gradient(0,transparent 50%,rgba(255,255,255,.19) 50%);
+    background-image:-ms-linear-gradient(0,rgba(255,255,255,.07) 50%,transparent 50%),-ms-linear-gradient(0,rgba(255,255,255,.13) 50%,transparent 50%),-ms-linear-gradient(0,transparent 50%,rgba(255,255,255,.17) 50%),-ms-linear-gradient(0,transparent 50%,rgba(255,255,255,.19) 50%);
+    background-size:13px, 29px, 37px, 53px;
 }
 
-h1, h2, h3 {
-  line-height:1.1;
+/* ------- Clock container ------ */
+/* Debug: div { border:1px solid rgba(0,0,0,0.5); } */
+
+#clock {
+    position:absolute; /* childs are abs. positionned */
+    z-index:1;
+    width:260px; /* (---MOD---) */
+    height:260px;  /* (---MOD---) */
+    border-radius:50%; /* (---MOD---) All round ? */
+    background:#026873;
+    /*transition:all 250ms ease-in-out;
+    -webkit-transition:all 250ms ease-in-out;
+    -moz-transition:all 250ms ease-in-out;
+    -ms-transition:all 250ms ease-in-out;
+    -o-transition:all 250ms ease-in-out;
+    box-shadow:inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    -o-box-shadow:inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow:inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow:inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    -ms-box-shadow:inset 0 2px 6px rgba(0, 0, 0, 0.3);*/
 }
 
-h1 {
-  font-size:28px;
+.shadow #clock,
+.shadow #clockBack {
+    /*-webkit-filter: drop-shadow(0 0 20px rgba(0,0,0,.5));
+    -moz-filter: drop-shadow(0 0 20px rgba(0,0,0,.5));
+    -ms-filter: drop-shadow(0 0 20px rgba(0,0,0,.5));
+    -o-filter: drop-shadow(0 0 20px rgba(0,0,0,.5));
+    filter: drop-shadow(0 0 20px rgba(0,0,0,.5));*/
+	box-shadow:0 0 20px rgba(0,0,0,.5);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,.5);
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,.5);
+    -ms-box-shadow:0 0 20px rgba(0,0,0,.5);
+    -o-box-shadow:0 0 20px rgba(0,0,0,.5);
 }
 
-h2 {
-  color:#393939;
-}
-
-h3, h4, h5, h6 {
-  color:#494949;
-}
-
-a {
-  color:#39c;
-  font-weight:400;
-  text-decoration:none;
-}
-
-a small {
-  font-size:11px;
-  color:#777;
-  margin-top:-0.6em;
-  display:block;
-}
-
-.wrapper {
-  width:860px;
-  margin:0 auto;
-}
-
-blockquote {
-  border-left:1px solid #e5e5e5;
-  margin:0;
-  padding:0 0 0 20px;
-  font-style:italic;
-}
-
-code, pre {
-  font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color:#333;
-  font-size:12px;
-}
-
-pre {
-  padding:8px 15px;
-  background: #f8f8f8;  
-  border-radius:5px;
-  border:1px solid #e5e5e5;
-  overflow-x: auto;
-}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-}
-
-th, td {
-  text-align:left;
-  padding:5px 10px;
-  border-bottom:1px solid #e5e5e5;
-}
-
-dt {
-  color:#444;
-  font-weight:700;
-}
-
-th {
-  color:#444;
-}
-
-img {
-  max-width:100%;
-}
-
-header {
-  width:270px;
-  float:left;
-  position:fixed;
-}
-
-header ul {
-  list-style:none;
-  height:40px;
-  
-  padding:0;
-  
-  background: #eee;
-  background: -moz-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
-  background: -webkit-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -o-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -ms-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  
-  border-radius:5px;
-  border:1px solid #d2d2d2;
-  box-shadow:inset #fff 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
-  width:270px;
-}
-
-header li {
-  width:89px;
-  float:left;
-  border-right:1px solid #d2d2d2;
-  height:40px;
-}
-
-header ul a {
-  line-height:1;
-  font-size:11px;
-  color:#999;
-  display:block;
-  text-align:center;
-  padding-top:6px;
-  height:40px;
-}
-
-strong {
-  color:#222;
-  font-weight:700;
-}
-
-header ul li + li {
-  width:88px;
-  border-left:1px solid #fff;
-}
-
-header ul li + li + li {
-  border-right:none;
-  width:89px;
-}
-
-header ul a strong {
-  font-size:14px;
-  display:block;
-  color:#222;
-}
-
-section {
-  width:500px;
-  float:right;
-  padding-bottom:50px;
-}
-
-small {
-  font-size:11px;
-}
-
-hr {
-  border:0;
-  background:#e5e5e5;
-  height:1px;
-  margin:0 0 20px;
-}
-
-footer {
-  width:270px;
-  float:left;
-  position:fixed;
-  bottom:50px;
-}
-
-@media print, screen and (max-width: 960px) {
-  
-  div.wrapper {
-    width:auto;
-    margin:0;
-  }
-  
-  header, section, footer {
-    float:none;
-    position:static;
-    width:auto;
-  }
-  
-  header {
-    padding-right:320px;
-  }
-  
-  section {
-    border:1px solid #e5e5e5;
-    border-width:1px 0;
-    padding:20px 0;
-    margin:0 0 20px;
-  }
-  
-  header a small {
-    display:inline;
-  }
-  
-  header ul {
+#reflet,
+#clockBack,
+#refletBack,
+#clockBorder { /* Give clock glass effect */
     position:absolute;
-    right:50px;
-    top:52px;
-  }
+    z-index:6;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    border-radius:50%;
 }
 
-@media print, screen and (max-width: 720px) {
-  body {
-    word-wrap:break-word;
-  }
-  
-  header {
-    padding:0;
-  }
-  
-  header ul, header p.view {
-    position:static;
-  }
-  
-  pre, code {
-    word-wrap:normal;
-  }
+/*#clock,
+#background {
+    background:linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 100%);
+    background:-moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 100%);
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0.2)));
+    background:-webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 100%);
+    background:-o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 100%);
+    background:-ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#29000000', GradientType=0);
+}*/
+
+/* ------- JS works with this elements ------ */
+
+div.innerCenter { /* Circle inside clock */
+    position:absolute;
+    z-index:2;
+    top:50%;
+    left:50%;
+    width:188px;
+    height:188px; /* (---MOD---) (Centered with margin by JS) */
+    border-radius:50%; /* (---MOD---) */
+    background:rgba(255, 255, 255, 0.16);
+}
+.shadow div.innerCenter {
+    box-shadow:0 0 3px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow:0 0 3px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.2);
+    -webkit-box-shadow:0 0 3px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.2);
+    -ms-box-shadow:0 0 3px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.2);
+    -o-box-shadow:0 0 3px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-@media print, screen and (max-width: 480px) {
-  body {
-    padding:15px;
-  }
-  
-  header ul {
-    display:none;
-  }
+div.sec, div.min, div.hour {
+    position:absolute;
+    /* transition:all 200ms linear; // smooth, but rotate anticlockwise from 359° to 1° */
+}
+div.sec {
+    top:0;
+    width:2px; /* (---MOD---) second clockwise width */
+    z-index:10;
+}
+div.min {
+    top:0;
+    width:4px; /* (---MOD---) */
+    z-index:11;
+}
+div.hour {
+    top:0;
+    width:8px; /* (---MOD---) */
+    z-index:12;
+}
+div.sec div.clockwise {
+    top:36px;
 }
 
-@media print {
-  body {
-    padding:0.4in;
-    font-size:12pt;
-    color:#444;
-  }
+div.min div.clockwise {
+    top:52px; /* (---MOD---) dist from clock border == clockwise height */
 }
+
+div.hour div.clockwise {
+    top:64px; /* (---MOD---) */
+}
+
+div.clockwise {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:114px; /* (---MOD---) clockH/2 - 8 : center of the #clock, minus junction */
+    background:#FFF;
+    background:rgba(255, 255, 255, 0.4);
+    border-radius:4px;
+}
+.shadow div.clockwise {
+    box-shadow:0 0 3px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow:0 0 3px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow:0 0 3px rgba(0, 0, 0, 0.25);
+    -ms-box-shadow:0 0 3px rgba(0, 0, 0, 0.25);
+    -o-box-shadow:0 0 3px rgba(0, 0, 0, 0.25);
+}
+
+.shadow div.digit, .shadow div.time, .shadow div.date {
+    font-smoothing:antialiased;
+    -webkit-font-smoothing:antialiased;
+    -moz-font-smoothing:antialiased;
+    -ms-font-smoothing:antialiased;
+    -o-font-smoothing:antialiased;
+    text-size-adjust:none;
+    -webkit-text-size-adjust:none;
+    -moz-text-size-adjust:none;
+    -ms-text-size-adjust:none;
+    -o-text-size-adjust:none;
+}
+
+div.digit {
+    position:absolute;
+	top:130px;
+	left:130px;
+    z-index:5;
+    width:36px;
+    height:36px; /* (---MOD---) */
+    font:24px/36px 'Orbitron', arial, verdana, sans-serif; /* (---MOD---) */
+    text-align:center;
+    color:#FFF;
+    color:rgba(255, 255, 255, 0.33);
+}
+.shadow div.digit {
+    text-shadow:0 0 2px rgba(255, 255, 255, 0.25);
+    /*
+    border-radius:50%;
+    box-shadow:inset 0 0 3px rgba(255,255,255,0.3);
+        -moz-box-shadow:inset 0 0 3px rgba(255,255,255,0.3);
+        -webkit-box-shadow:inset 0 0 3px rgba(255,255,255,0.3);
+        -ms-box-shadow:inset 0 0 3px rgba(255,255,255,0.3);
+        -o-box-shadow:inset 0 0 3px rgba(255,255,255,0.3)
+    */
+}
+
+
+div.digit span {
+    /* 12,3,6 and 9 */
+    color:rgba(255, 255, 255, 0.9);
+}
+div.unit {
+    position:absolute;
+    z-index:8;
+	top:130px;
+	left:130px;
+    width:2px;
+    height:8px; /* (---MOD---) */
+    background:rgba(255, 255, 255, 0.4);
+}
+div.time, div.date {
+    position:absolute;
+    z-index:5;
+    top:152px;
+    left:0; /* (---MOD---) */
+    width:260px;
+    height:24px; /* (---MOD---) */
+    text-align:center;
+    font:22px/24px'Courrier New', 'Courier', serif; /* (---MOD---) */
+    color:#FFF;
+    color:rgba(255, 255, 255, 0.33);
+}
+
+div.date {
+    top:170px; /* (---MOD---) */
+}
+
+/* ------- 3D Rotate example ------ */
+/* SOURCE : http://www.laplace2be.com/projects/phone/ */
+
+#content {
+	-webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+#rotator {
+	width:260px;
+    height:260px;
+    position: relative;
+	/*position: absolute;
+	z-index: 10;
+    margin-left: -130px;
+    margin-top: -130px;
+    left: 50%;
+    top: 40%;*/
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	pointer-events: none;
+}
+
+#clock, #clockBack {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-style: flat;
+    -moz-transform-style: flat;
+    -ms-transform-style: flat;
+    -o-transform-style: flat;
+    transform-style: flat;
+}
+
+#clockBack {
+    -webkit-transform: rotateY(180deg) translateZ(8px);
+    -moz-transform: rotateY(180deg) translateZ(8px);
+    -ms-transform: rotateY(180deg) translateZ(8px);
+    -o-transform: rotateY(180deg) translateZ(8px);
+    transform: rotateY(180deg) translateZ(8px);
+    background:#026873;
+}
+
+#reflet,
+#refletBack {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background-image: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 49%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(49%,rgba(255,255,255,0.25)), color-stop(50%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
+    background-image: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
+    background-repeat: no-repeat;
+    background-size:300px 300px;
+}
+
+.shadow #reflet,
+.shadow #refletBack {
+    box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+    -o-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+    -webkit-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+    -ms-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+}
+
+#reflet {
+    -webkit-transform:translateZ(1px);
+    -moz-transform:translateZ(1px);
+    -ms-transform:translateZ(1px);
+    -o-transform:translateZ(1px);
+    transform:translateZ(1px);
+}
+
+#refletBack {
+    -webkit-transform: rotateY(-180deg) translateZ(9px);
+    -moz-transform: rotateY(-180deg) translateZ(9px);
+    -ms-transform: rotateY(-180deg) translateZ(9px);
+    -o-transform: rotateY(-180deg) translateZ(9px);
+    transform: rotateY(-180deg) translateZ(9px);
+}
+
+#clockBorder {
+    -webkit-transform:translateZ(-4px);
+    -moz-transform:translateZ(-4px);
+    -ms-transform:translateZ(-4px);
+    -o-transform:translateZ(-4px);
+    transform:translateZ(-4px);
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.side {
+    background:#026873;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    width: 19px;
+    height: 10px;
+}
+
+#infos, #twitter, #shadow {
+    display:block;
+    position:absolute;
+    font: 12px "Orbitron", arial, sans; 
+}
+	#infos {
+		top:10px;
+		left:10px;
+	}
+	#shadow {
+		left:10px;
+		bottom:10px;
+	}
+	#twitter {
+		right:10px;
+		bottom:10px;
+	}
+		#twitter:hover, #shadow:hover {
+			color:rgba(0,0,0,.8);
+		}
