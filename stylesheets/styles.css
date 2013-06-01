@@ -1,11 +1,11 @@
 @font-face {
-    font-family: 'Orbitron';
+    font-family: "Orbitron";
     font-style: normal;
     font-weight: 400;
-	src: local('Orbitron-Light'), local('Orbitron-Regular'),
-		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot),
-		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/94ug0rEgQO_WuI_xKJMFc_esZW2xOQ-xsNqO47m55DA.woff) format('woff'),
-		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot) format('embedded-opentype');
+	src: local("Orbitron-Light"), local("Orbitron-Regular");
+	src: url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot),
+		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/94ug0rEgQO_WuI_xKJMFc_esZW2xOQ-xsNqO47m55DA.woff) format("woff"),
+		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot) format("embedded-opentype");
 }
 
 * {
@@ -42,7 +42,7 @@ body {
     background-size:13px, 29px, 37px, 53px;
 }
 
-#infos, #twitter, #shadow {
+#infos, #twitter, #shadow, #d3 {
     display:block;
     position:absolute;
     font: 12px "Orbitron", arial, sans; 
@@ -55,10 +55,14 @@ body {
 		left:10px;
 		bottom:10px;
 	}
+	#d3 {
+		left:10px;
+		bottom:30px;
+	}
 	#twitter {
 		right:10px;
 		bottom:10px;
 	}
-		#twitter:hover, #shadow:hover {
+		#twitter:hover, #shadow:hover, #d3:hover {
 			color:rgba(0,0,0,.8);
 		}

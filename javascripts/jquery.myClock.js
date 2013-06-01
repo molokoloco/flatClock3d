@@ -1,15 +1,15 @@
 /* =============================================================
-    // Mutli-screen flat 3D analogue clock (V2.5) with jQuery & CSS3 - No image, no webGL
+    // Mutli-screen flat 3D analogue clock (V2.6) with jQuery & CSS3 - No image, no webGL
     // By molokoloco@gmail.com 05/2013
     
-	// Demo : http://molokoloco.github.io/flatClock3d/
+    // Demo : http://molokoloco.github.io/flatClock3d/
     
-	// Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
+    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // GitHub sources : https://github.com/molokoloco/flatClock3d
-	// jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
+    // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
    =============================================================
-	// Usage example...
+    // Usage example...
 
     $('#clock').analogueClock({ // Create Clock
         withDate:false,
@@ -29,7 +29,7 @@
         // Distribute elements clockwise inside a box
         circalise: function (options) { // $('div').circalise({targets:'div.unit'});
             
-			options = $.extend({
+            options = $.extend({
                 targets: '> *', // childs elements to distribute inside this box
                 rotateTargets: false,
                 rotate3d: false,
@@ -72,7 +72,7 @@
 
         // Analogue Clock plugin
         analogueClock: function (options) {
-			
+            
             options = $.extend({ // Default values
                 withHours: true, // Print digit time ?
                 rotateHours: true, // Rotate digit time ?
@@ -149,10 +149,10 @@
                 for (var i = 0; i < plotsNum; i++) {
                     sidesHtml += '<div class="side"></div>';
                 }
-				
+                
                 $('<div id="clockBorder"/>')
                     .append(sidesHtml)
-					.appendTo($clock.parent())
+                    .appendTo($clock.parent())
                     .circalise({
                         targets: '.side',
                         rotate3d: true,
@@ -177,7 +177,7 @@
                     setTimeout(timer, 300); // precision 300ms is fine when widget is alone
                 };
                 timer(); // init !
-				
+                
                 return $clock; // this 
             });
         }
