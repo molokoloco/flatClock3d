@@ -243,7 +243,13 @@ div.date {
 	-ms-user-select: none;
 	-o-user-select: none;
 	user-select: none;
+	
 	pointer-events: none;
+	-webkit-touch-action: none;
+	-moz-touch-action: none;
+	-ms-touch-action: none;
+	-o-touch-action: none;
+	touch-action: none;
 }
 
 #clock, #clockBack {

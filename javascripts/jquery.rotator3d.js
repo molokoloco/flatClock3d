@@ -66,11 +66,11 @@
                 if (!that.settings.is3D) return;
                 that.settings.moveMouseEnabled = true;
 				that.update();
-                document.addEventListener('PointerMove', mouseIsMove);
+                document.addEventListener('pointermove', mouseIsMove);
             },
             mouseLeave = function(event) {
                 if (!that.settings.is3D) return;
-                document.removeEventListener('PointerMove', mouseIsMove, false);
+                document.removeEventListener('pointermove', mouseIsMove, false);
                 that.settings.moveMouseEnabled = false;
                 that.refresh();
             };
