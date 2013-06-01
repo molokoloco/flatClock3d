@@ -3,12 +3,12 @@
     "title": "myClock",
     "description": "Mutli-screen flat 3D analogue clock (V2.5) with jQuery & CSS3 - No image, no webGL",
     "keywords": [
-        "time"
+        "timer", "clock", "3D"
     ],
-    "version": "2.5.0",
+    "version": "2.6.0",
     "author": {
         "name": "Julien G aka molokoloco",
-		"email": "molokoloco@gmail.com",
+	"email": "molokoloco@gmail.com",
         "url": "http://www.b2bweb.fr/"
     },
     "licenses": [
@@ -17,12 +17,12 @@
         "url": "https://github.com/molokoloco/myClock/blob/master/LICENSE.txt"
         }
     ],
-    "bugs": "https://github.com/freqdec/flatClock3d/issues",
-    "homepage": "http://molokoloco.github.io/flatClock3d/",
+    "homepage": "https://github.com/molokoloco/flatClock3d/",
     "docs": "http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/",
+    "bugs": "https://github.com/molokoloco/flatClock3d/issues",
     "download": "https://github.com/molokoloco/flatClock3d",
     "dependencies": {
         "jquery": "*",
-		"modernizr": "*"
+	"modernizr": "*"
     }
 }
