@@ -1,26 +1,28 @@
 {
     "name": "myClock",
     "title": "myClock",
-    "description": "myClock – a jQuery plugin for producing big, bold & responsive headlines",
+    "description": "Mutli-screen flat 3D analogue clock (V2.5) with jQuery & CSS3 - No image, no webGL",
     "keywords": [
-        "typography"
+        "time"
     ],
-    "version": "2.2.0",
+    "version": "2.5.0",
     "author": {
-        "name": "Brian McAllister",
-        "url": "http://www.frequency-decoder.com/"
+        "name": "Julien G aka molokoloco",
+		"email": "molokoloco@gmail.com",
+        "url": "http://www.b2bweb.fr/"
     },
     "licenses": [
         {
         "type": "MIT",
-        "url": "https://github.com/freqdec/myClock/blob/master/LICENSE.txt"
+        "url": "https://github.com/molokoloco/myClock/blob/master/LICENSE.txt"
         }
     ],
-    "bugs": "https://github.com/freqdec/myClock/issues",
-    "homepage": "http://www.frequency-decoder.com/demo/myClock/",
-    "docs": "http://www.frequency-decoder.com/demo/myClock/",
-    "download": "https://github.com/freqdec/myClock",
+    "bugs": "https://github.com/freqdec/flatClock3d/issues",
+    "homepage": "http://molokoloco.github.io/flatClock3d/",
+    "docs": "http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/",
+    "download": "https://github.com/molokoloco/flatClock3d",
     "dependencies": {
-        "jquery": ">=1.4.2"
+        "jquery": "*",
+		"modernizr": "*"
     }
 }

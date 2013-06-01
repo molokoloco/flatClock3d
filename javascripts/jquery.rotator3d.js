@@ -11,7 +11,7 @@
    =============================================================
  * // Usage example...
 
-    var cssPhone = new rotator3d($('#rotator'), {
+    var $cssBox3d = $('#rotator').rotator3d({
         reflet: $('#reflet'),
         refletBack: $('#refletBack'),
         rotationX: 6,
