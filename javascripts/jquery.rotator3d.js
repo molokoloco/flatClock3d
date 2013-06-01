@@ -101,7 +101,6 @@
         
         update: function () {
             if (!this.settings.moveMouseEnabled || !this.settings.is3D) return;
-            
             this.currentRotationX += (this.newRotationX - this.currentRotationX) * 0.1;
             this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
             if (parseInt(this.currentRotationY * 10) != parseInt(this.newRotationY * 10) || parseInt(this.currentRotationX * 10) != parseInt(this.newRotationX * 10)) {
