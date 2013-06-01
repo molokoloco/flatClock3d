@@ -65,6 +65,7 @@
             mouseEnter = function(event) {
                 if (!that.settings.is3D) return;
                 that.settings.moveMouseEnabled = true;
+				that.update();
                 document.addEventListener('PointerMove', mouseIsMove);
             },
             mouseLeave = function(event) {
