@@ -28,13 +28,16 @@ $(function () { // DOM READY /////////////////////
         cH       = $rotator.outerHeight(),
         browser  = null,
         scale    = 0,
+		scaleMin = 0.2,
+		scaleMax = 1.5,
         size     = null,
         offset   = 0;
     
     var scaleToFit = function() { // Auto-scale content to full screen
         browser = [$(window).innerWidth(), $(window).innerHeight()];
         scale   = (Math.min(browser[0] / cW, browser[1] / cH)) * 0.8; // scaleToFit - 20% marging
-        scale   = Math.min(1.5, scale); // Don't scale too much
+        scale   = Math.min(scaleMax, scale); // Don't scale too much
+		scale   = Math.max(scaleMin, scale);
         size    = [cW * scale, cH * scale];
         offset  = [(browser[0] - size[0]) / 2, (browser[1] - size[1]) / 2];
         $content.css({transform: 'translate('+offset[0]+'px, '+offset[1]+'px) scale('+scale+')'});
@@ -70,9 +73,17 @@ $(function () { // DOM READY /////////////////////
     });
     
     $d3.on('click', function() { // Test with/out shadow ?
-        $content.toggleClass('d3');
         $rotator.rotator3d('toggle3d');
         $content.css({transform: 'translate('+offset[0]+'px, '+offset[1]+'px) scale('+scale+')'});
+		if (scaleMax == 1.5) {
+			scaleMax = 1;
+			scaleMin = 1;
+		}
+		else {
+			scaleMax = 1.5;
+			scaleMin = 0.2;
+		}
+		$(window).trigger('resize');
     });
     
     if (window.isMobile) setTimeout(function () { window.scrollTo(0, 1); }, 0);
