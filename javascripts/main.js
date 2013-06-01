@@ -74,16 +74,17 @@ $(function () { // DOM READY /////////////////////
     
     $d3.on('click', function() { // Test with/out shadow ?
         $rotator.rotator3d('toggle3d');
-        $content.css({transform: 'translate('+offset[0]+'px, '+offset[1]+'px) scale('+scale+')'});
-		if (scaleMax == 1.5) {
+		if (scaleMax == 1.5) { // 2D
 			scaleMax = 1;
 			scaleMin = 1;
+			$('#clockBack,#refletBack,#clockBorder,.side').hide(); // Custom hardcoded /sorry
 		}
-		else {
+		else { // 3D
 			scaleMax = 1.5;
 			scaleMin = 0.2;
+			if (Modernizr.csstransforms3d) $('#clockBack,#refletBack,#clockBorder,.side').show(); 
 		}
-		$(window).trigger('resize');
+		$(window).trigger('resize'); // Re-scale
     });
     
     if (window.isMobile) setTimeout(function () { window.scrollTo(0, 1); }, 0);

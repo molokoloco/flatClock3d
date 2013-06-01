@@ -125,20 +125,11 @@
             if (this.settings.is3D) {
                 this.settings.is3D = false;
                 this.settings.moveMouseEnabled = false;
-                this.element.transition({
-                    rotateX: 1,
-                    rotateY: 1
-                }, 0);
-                //if (this.reflet) this.reflet.hide();
-                //if (this.refletBack) this.refletBack.hide();
-                $('#clockBack,#refletBack,#clockBorder,.side').hide(); 
+                this.element.css({rotateX:0, rotateY:0});
             }
             else {
                 this.settings.is3D = true;
                 this.settings.moveMouseEnabled = true;
-                //if (this.reflet) this.reflet.show();
-                //if (this.refletBack) this.refletBack.show();
-                $('#clockBack,#refletBack,#clockBorder,.side').show(); 
                 this.update();
             }
         },
