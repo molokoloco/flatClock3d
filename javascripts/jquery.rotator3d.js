@@ -62,12 +62,12 @@
                 that.newRotationY = -(event.pageX - $(window).width() * 0.5) * 0.15;
                 that.newRotationX = -(event.pageY - $(window).height() * 0.5) * .5;
             },
-            mouseEnter = function(evt) {
+            mouseEnter = function(event) {
                 if (!that.settings.is3D) return;
                 that.settings.moveMouseEnabled = true;
                 document.addEventListener('PointerMove', mouseIsMove);
             },
-            mouseLeave = function(evt) {
+            mouseLeave = function(event) {
                 if (!that.settings.is3D) return;
                 document.removeEventListener('PointerMove', mouseIsMove, false);
                 that.settings.moveMouseEnabled = false;
