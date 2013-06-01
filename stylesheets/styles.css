@@ -1,10 +1,13 @@
 /*
-    // Mutli-screen flat 3D analogue clock (V2.4) with jQuery & CSS3 - No image, no webGL
-	// By molokoloco@gmail.com 10/10/2011 - Edit 3D 28/05/2013
-	// Demo : http://www.b2bweb.fr/framework/myClock/
+    // Mutli-screen flat 3D analogue clock (V2.5) with jQuery & CSS3 - No image, no webGL
+    // By molokoloco@gmail.com 05/2013
+    
+	// Demo : http://molokoloco.github.io/flatClock3d/
+    
 	// Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
+    // GitHub sources : https://github.com/molokoloco/flatClock3d
 	// jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
-	// jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
+    // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
 
     // Colors : easy to change, Sizes and positions : more tricky
     // Colors are based on a white semi-transparent theme :
@@ -13,15 +16,14 @@
     // So only kee in mind your SIZES ((---MOD---))
 */
 
-
 @font-face {
     font-family: 'Orbitron';
     font-style: normal;
     font-weight: 400;
-    src: url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot);
-    src: local('Orbitron-Light'), local('Orbitron-Regular'),
-    url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/94ug0rEgQO_WuI_xKJMFc_esZW2xOQ-xsNqO47m55DA.woff) format('woff'),
-    url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot) format('embedded-opentype');
+	src: local('Orbitron-Light'), local('Orbitron-Regular'),
+		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot),
+		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/94ug0rEgQO_WuI_xKJMFc_esZW2xOQ-xsNqO47m55DA.woff) format('woff'),
+		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot) format('embedded-opentype');
 }
 
 * {
@@ -255,9 +257,8 @@ div.date {
 }
 
 /* ------- 3D Rotate example ------ */
-/* SOURCE : http://www.laplace2be.com/projects/phone/ */
 
-#content {
+#content { /* Auto-scale SCENE */
 	-webkit-transform-origin: 0 0;
     -moz-transform-origin: 0 0;
     -ms-transform-origin: 0 0;
@@ -265,9 +266,10 @@ div.date {
     transform-origin: 0 0;
 }
 
-#rotator {
+#rotator { /* SOURCE : http://www.laplace2be.com/projects/phone/ */
 	width:260px;
     height:260px;
+	margin:10px;
     position: relative;
 	/*position: absolute;
 	z-index: 10;
@@ -367,15 +369,17 @@ div.date {
 }
 
 .side {
-    background:#026873;
     position: absolute;
+	top:130px;
+	left:130px;
+	width: 19px;
+    height: 10px;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     backface-visibility: hidden;
-    width: 19px;
-    height: 10px;
+	background:#026873;
 }
 
 #infos, #twitter, #shadow {

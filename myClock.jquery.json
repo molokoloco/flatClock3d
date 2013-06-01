@@ -1,0 +1,26 @@
+{
+    "name": "myClock",
+    "title": "myClock",
+    "description": "myClock – a jQuery plugin for producing big, bold & responsive headlines",
+    "keywords": [
+        "typography"
+    ],
+    "version": "2.2.0",
+    "author": {
+        "name": "Brian McAllister",
+        "url": "http://www.frequency-decoder.com/"
+    },
+    "licenses": [
+        {
+        "type": "MIT",
+        "url": "https://github.com/freqdec/myClock/blob/master/LICENSE.txt"
+        }
+    ],
+    "bugs": "https://github.com/freqdec/myClock/issues",
+    "homepage": "http://www.frequency-decoder.com/demo/myClock/",
+    "docs": "http://www.frequency-decoder.com/demo/myClock/",
+    "download": "https://github.com/freqdec/myClock",
+    "dependencies": {
+        "jquery": ">=1.4.2"
+    }
+}
