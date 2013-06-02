@@ -13,8 +13,8 @@ With this prototype,  on desktop browsers you can move around  the 3D CSS clock 
  
 On my HTC One S with Chrome browser and Firefox browser…
  
-[http://www.b2bweb.fr/wp-content/uploads/2013-05-30_15-33-35-270x480.png] 
-[http://www.b2bweb.fr/wp-content/uploads/2013-05-30_15-37-26-270x480.png] 
+![Android  Chrome browser](http://www.b2bweb.fr/wp-content/uploads/2013-05-30_15-33-35-270x480.png)
+![Android Firefox browser](http://www.b2bweb.fr/wp-content/uploads/2013-05-30_15-37-26-270x480.png)
  
 Crédit : The original code to 3D rotate a CSS box is taken from there : http://www.laplace2be.com/projects/phone/   
 GPL/MIT/Copyleft - [@molokoloco](https://twitter.com/#!/molokoloco/) 2013 - <http://b2bweb.fr>
