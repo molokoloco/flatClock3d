@@ -250,6 +250,12 @@ div.date {
 	-ms-touch-action: none;
 	-o-touch-action: none;
 	touch-action: none;
+	
+	-webkit-perspective: 700px;
+    -moz-perspective: 700px;
+    -ms-perspective: 700px;
+    -o-perspective: 700px;
+    perspective: 700px;
 }
 
 #clock, #clockBack {

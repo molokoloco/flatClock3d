@@ -8,7 +8,12 @@
     // GitHub sources : https://github.com/molokoloco/flatClock3d
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
+	
+	// "$.rotator3d()" code pattern is some like "Twitter Boostrap"
+	// Cf. http://twitter.github.io/bootstrap/javascript.html
+	
    =============================================================
+   
     // Usage example...
 
     var $cssBox3d = $('#rotator').rotator3d({
@@ -96,6 +101,7 @@
                 value -= 360;
                 if (value > maax) value = this.limitedValue(value, miin, maax);
             }
+
             return value;
         },
         
@@ -105,7 +111,6 @@
             this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
             if (parseInt(this.currentRotationY * 10) != parseInt(this.newRotationY * 10) || parseInt(this.currentRotationX * 10) != parseInt(this.newRotationX * 10)) {
                 this.element.css({
-                    perspective: '700px',
                     rotateY: this.currentRotationY + 'deg',
                     rotateX: this.currentRotationX + 'deg'
                 });
