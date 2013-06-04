@@ -2,10 +2,10 @@
     font-family: "Orbitron";
     font-style: normal;
     font-weight: 400;
-	src: local("Orbitron-Light"), local("Orbitron-Regular");
-	src: url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot),
-		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/94ug0rEgQO_WuI_xKJMFc_esZW2xOQ-xsNqO47m55DA.woff) format("woff"),
-		 url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot) format("embedded-opentype");
+    src: local("Orbitron-Light"), local("Orbitron-Regular");
+    src: url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot),
+         url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/94ug0rEgQO_WuI_xKJMFc_esZW2xOQ-xsNqO47m55DA.woff) format("woff"),
+         url(http://themes.googleusercontent.com/static/fonts/orbitron/v3/qhIa0Jl7ziRjUBxIWMni1_esZW2xOQ-xsNqO47m55DA.eot) format("embedded-opentype");
 }
 
 * {
@@ -13,7 +13,8 @@
     padding:0;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
 }
@@ -25,7 +26,8 @@ body {
     color: rgba(255, 255, 255, 0.9);   
 }
 
-a, a:visited {
+a,
+a:visited {
     color: rgba(200, 200, 200, 0.9);
     text-decoration:none;
 }
@@ -42,27 +44,32 @@ body {
     background-size:13px, 29px, 37px, 53px;
 }
 
-#infos, #twitter, #shadow, #d3 {
+/* ------- DEMOS LINKS ------ */
+
+#infos,
+#twitter,
+#emboss,
+#d3 {
     display:block;
     position:absolute;
     font: 12px "Orbitron", arial, sans; 
 }
-	#infos {
-		top:10px;
-		left:10px;
-	}
-	#shadow {
-		left:10px;
-		bottom:10px;
-	}
-	#d3 {
-		left:10px;
-		bottom:30px;
-	}
-	#twitter {
-		right:10px;
-		bottom:10px;
-	}
-		#twitter:hover, #shadow:hover, #d3:hover {
-			color:rgba(0,0,0,.8);
-		}
+    #infos {
+        top:10px;
+        left:10px;
+    }
+    #emboss {
+        left:10px;
+        bottom:10px;
+    }
+    #d3 {
+        left:10px;
+        bottom:30px;
+    }
+    #twitter {
+        right:10px;
+        bottom:10px;
+    }
+        #twitter:hover, #emboss:hover, #d3:hover {
+            color:rgba(0,0,0,.8);
+        }

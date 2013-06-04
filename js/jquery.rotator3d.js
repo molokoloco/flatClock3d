@@ -1,5 +1,5 @@
 /* =============================================================
-    // Mutli-screen flat 3D analogue clock (V2.6) with jQuery & CSS3 - No image, no webGL
+    // Mutli-screen flat 3D analogue clock (V2.7) with jQuery & CSS3 - No image, no webGL
     // By molokoloco@gmail.com 05/2013
     
     // Demo : http://molokoloco.github.io/flatClock3d/
@@ -8,15 +8,11 @@
     // GitHub sources : https://github.com/molokoloco/flatClock3d
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
-	
-	// "$.rotator3d()" code pattern is some like "Twitter Boostrap"
-	// Cf. http://twitter.github.io/bootstrap/javascript.html
-	
    =============================================================
-   
     // Usage example...
 
     var $cssBox3d = $('#rotator').rotator3d({
+        shadow: $('#shadow'),
         reflet: $('#reflet'),
         refletBack: $('#refletBack'),
         rotationX: 6,
@@ -41,21 +37,32 @@
         this.settings = $.extend(true, {}, $.fn.rotator3d.defaults, typeof options == 'object' && options || {});
     
         this.element = element;
+        this.shadow = this.settings.shadow;
         this.reflet = this.settings.reflet;
         this.refletBack = this.settings.refletBack;
         this.newRotationX = this.settings.rotationX;
         this.newRotationY = this.settings.rotationY;
         this.currentRotationX = 0;
         this.currentRotationY = 0;
-    
+        this.winW = 0;
+        this.winH = 0;
+
         var that = this;
+        
+        $(window)
+            .on('resize', function() {
+                that.winW = $(window).width();
+                that.winH = $(window).height();
+             })
+            .trigger('resize');
+        
         if (window.isMobile) {
            var orient = function(event) {
                 if (!that.settings.moveMouseEnabled || !that.settings.is3D) return;
                 var x = event.beta, // z = event.alpha,
                     y = event.gamma;
                 that.newRotationY = (window.isMozMobile ? y : -y);
-                that.newRotationX = (window.isMozMobile ? -x : x); // $('#shadow').text('x:'+x+'/y:'+y);
+                that.newRotationX = (window.isMozMobile ? -x : x);
            };
            //if ('deviceorientation' in window) // FF mobile ?? bug ?
            window.addEventListener('deviceorientation', orient, false);
@@ -64,13 +71,13 @@
 
         var mouseIsMove = function(event) { // Cross browser mousemouve/pointer/etc.. http://handjs.codeplex.com/
                 if (!that.settings.moveMouseEnabled || !that.settings.is3D) return;
-                that.newRotationY = -(event.pageX - $(window).width() * 0.5) * 0.15;
-                that.newRotationX = -(event.pageY - $(window).height() * 0.5) * .5;
+                that.newRotationY = -(event.pageX - that.winW * 0.5) * 0.15;
+                that.newRotationX = -(event.pageY - that.winH * 0.5) * .5;
             },
             mouseEnter = function(event) {
                 if (!that.settings.is3D) return;
                 that.settings.moveMouseEnabled = true;
-				that.update();
+                that.update();
                 document.addEventListener('pointermove', mouseIsMove);
             },
             mouseLeave = function(event) {
@@ -84,7 +91,8 @@
             .mouseenter(mouseEnter)
             .mouseleave(mouseLeave)
             .trigger('mouseenter');
-
+        
+        that.refresh();
         this.update();
     };
     
@@ -101,7 +109,6 @@
                 value -= 360;
                 if (value > maax) value = this.limitedValue(value, miin, maax);
             }
-
             return value;
         },
         
@@ -110,10 +117,17 @@
             this.currentRotationX += (this.newRotationX - this.currentRotationX) * 0.1;
             this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
             if (parseInt(this.currentRotationY * 10) != parseInt(this.newRotationY * 10) || parseInt(this.currentRotationX * 10) != parseInt(this.newRotationX * 10)) {
-                this.element.css({
+               this.element.css({
                     rotateY: this.currentRotationY + 'deg',
                     rotateX: this.currentRotationX + 'deg'
                 });
+                if (this.shadow) {
+                    // jQuery transit do not manage translateZ() http://ricostacruz.com/jquery.transit/
+                    // Fall back to old mod :( // keep the same order as rotator !!! : (1) rotateY (2) rotateX...
+                    this.shadow.css({
+                        transform:'translate3d(80px,80px,-400px) rotateY('+(-this.currentRotationY)+'deg) rotateX('+(-this.currentRotationX)+'deg) scale(1.5,1.5)'
+                    });
+                }
                 if (this.reflet) this.reflet.css({
                     backgroundPosition: this.limitedValue(this.currentRotationY, -180, 180) * -5 + "px 0px"
                 });
@@ -130,19 +144,24 @@
                 this.settings.is3D = false;
                 this.settings.moveMouseEnabled = false;
                 this.element.css({rotateX:0, rotateY:0});
+                if (this.shadow) this.shadow.hide();
             }
             else {
                 this.settings.is3D = true;
                 this.settings.moveMouseEnabled = true;
+                if (this.shadow) this.shadow.show();
                 this.update();
             }
         },
         
         refresh: function() {
-            this.element.transition({
+            this.element.css({
                 rotateX: this.settings.rotationX,
                 rotateY: this.settings.rotationY
-            }, 1200);
+            });
+            if (this.shadow) this.shadow.css({
+                transform:'translate3d(80px,80px,-400px) rotateY('+(-this.settings.rotationY)+'deg) rotateX('+(-this.settings.rotationX)+'deg) scale(1.5,1.5)'
+            });
             if (this.reflet) this.reflet.transition({
                 backgroundPosition: this.limitedValue(this.currentRotationY, -180, 180) * -5 + "px 0px"
             }, 1200);
@@ -160,8 +179,8 @@
 
     $.fn.rotator3d = function (options) {
         return this.each(function() { // Iterate collections
-            var $this          = $(this),
-                data           = $this.data('rotator3d');
+            var $this = $(this),
+                data  = $this.data('rotator3d');
             if (!data) $this.data('rotator3d', (data = new rotator3d($this, options)));
             if (typeof options == 'string') data[options]();
         });
@@ -170,6 +189,7 @@
     $.fn.rotator3d.Constructor = rotator3d;
 
     $.fn.rotator3d.defaults = { // Default values
+        shadow: null,
         reflet: null,
         refletBack: null,
         is3D: true,

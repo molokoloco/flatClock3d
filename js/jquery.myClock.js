@@ -1,5 +1,5 @@
 /* =============================================================
-    // Mutli-screen flat 3D analogue clock (V2.6) with jQuery & CSS3 - No image, no webGL
+    // Mutli-screen flat 3D analogue clock (V2.7) with jQuery & CSS3 - No image, no webGL
     // By molokoloco@gmail.com 05/2013
     
     // Demo : http://molokoloco.github.io/flatClock3d/
@@ -144,23 +144,22 @@
                 }
 
                 // Built clock 3D border sides : 3D smooth cylinder, polygones like
-                var plotsNum = 50,
-                    sidesHtml = '';
-                for (var i = 0; i < plotsNum; i++) {
-                    sidesHtml += '<div class="side"></div>';
+                if (Modernizr.csstransforms3d) {
+                    var sidesHtml = '';
+                    for (var i = 0; i < 50; i++)
+                        sidesHtml += '<div class="side"></div>';
+                    $('<div id="clockBorder"/>')
+                        .append(sidesHtml)
+                        .appendTo($clock.parent())
+                        .circalise({
+                            targets: '.side',
+                            rotate3d: true,
+                            startAngle: 0,
+                            xRadius: clockHalf,
+                            yRadius: clockHalf
+                        });
                 }
                 
-                $('<div id="clockBorder"/>')
-                    .append(sidesHtml)
-                    .appendTo($clock.parent())
-                    .circalise({
-                        targets: '.side',
-                        rotate3d: true,
-                        startAngle: 0,
-                        xRadius: clockHalf,
-                        yRadius: clockHalf
-                    });
-
                 // Animate clockwise
                 var timer = function () {
                     var now     = new Date(),
