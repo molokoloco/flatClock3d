@@ -1,7 +1,7 @@
 flatClock3D
 ===========
 
-Mutli-screen flat 3D analogue clock (V2.6) with jQuery & CSS3  
+Mutli-screen flat 3D analogue clock (V2.7) with jQuery & CSS3  
 No image, no webGL, no native !  
 
 - **Full demo** : http://molokoloco.github.io/flatClock3d/
