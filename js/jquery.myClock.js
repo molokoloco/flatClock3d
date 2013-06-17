@@ -146,7 +146,7 @@
                 // Built clock 3D border sides : 3D smooth cylinder, polygones like
                 if (Modernizr.csstransforms3d) {
                     var sidesHtml = '';
-                    for (var i = 0; i < 50; i++)
+                    for (var i = 0; i < 50; i++) // 50 div is a lot, but smooth. Ajust .side height if less
                         sidesHtml += '<div class="side"></div>';
                     $('<div id="clockBorder"/>')
                         .append(sidesHtml)

@@ -47,11 +47,6 @@
 #clock,
 #clockBack {
     background:#026873;
-    /*transition:all 250ms ease-in-out;
-    -webkit-transition:all 250ms ease-in-out;
-    -moz-transition:all 250ms ease-in-out;
-    -ms-transition:all 250ms ease-in-out;
-    -o-transition:all 250ms ease-in-out;*/
 }
     .emboss #clock,
     .emboss #clockBack {
@@ -84,6 +79,29 @@
         filter: blur(5px);
     }
 
+/* background-position is animated by jquery.rotator3d.js */
+
+#reflet, 
+#refletBack {
+    background-image: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 49%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(49%,rgba(255,255,255,0.25)), color-stop(50%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
+    background-image: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
+    background-repeat: no-repeat;
+    background-size:300px 300px;
+}
+    .emboss #reflet,
+    .emboss #refletBack {
+        box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+        -o-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+        -webkit-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+        -moz-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+        -ms-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
+    }
+	
 /* ------- JS works with this elements ------ */
 
 div.innerCenter { /* Circle inside clock */
@@ -225,7 +243,9 @@ div.date {
 
 /* ------- 3D Rotate example ------ */
 
-#content { /* Auto-scaled SCENE */
+/* #content auto-scaled SCENE in main.js */
+
+#content { 
     -webkit-transform-origin:0 0;
     -moz-transform-origin:0 0;
     -ms-transform-origin:0 0;
@@ -241,14 +261,18 @@ div.date {
     -ms-transform-style: preserve-3d;
     -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
-    /*
+	-webkit-transition:transform 250ms ease-in-out;
+    -moz-transition:transform 250ms ease-in-out;
+    -ms-transition:transform 250ms ease-in-out;
+    -o-transition:transform 250ms ease-in-out;
+	transition:transform 250ms ease-in-out;
+
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
     pointer-events: none;
-    */
 }
 
 /* sofware 3d fallback */
@@ -267,7 +291,8 @@ div.date {
     -ms-transform-style: preserve-3d;
     -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
-    -webkit-transform:translateZ(0); /* #shadow will be translated */
+	/* #shadow will be translated by jquery.rotator3d.js */
+    -webkit-transform:translateZ(0);
     -moz-transform:translateZ(0);
     -ms-transform:translateZ(0);
     -o-transform:translateZ(0);
@@ -284,11 +309,11 @@ div.date {
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transform-style: flat;
+    /*-webkit-transform-style: flat;
     -moz-transform-style: flat;
     -ms-transform-style: flat;
     -o-transform-style: flat;
-    transform-style: flat;
+    transform-style: flat;*/
 }
 
 #clockBack {
@@ -298,27 +323,6 @@ div.date {
     -o-transform: rotateY(180deg) translateZ(8px);
     transform: rotateY(180deg) translateZ(8px);
 }
-
-#reflet,
-#refletBack {
-    background-image: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 49%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
-    background-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(49%,rgba(255,255,255,0.25)), color-stop(50%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
-    background-image: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    background-image: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    background-image: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    background-image: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
-    background-repeat: no-repeat;
-    background-size:300px 300px;
-}
-    .emboss #reflet,
-    .emboss #refletBack {
-        box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
-        -o-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
-        -webkit-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
-        -moz-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
-        -ms-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
-    }
 
 #reflet {
     -webkit-transform:translateZ(1px);
@@ -353,6 +357,6 @@ div.date {
         top:130px;
         left:130px;
         width: 19px;
-        height: 10px;
+        height: 10px; /* this is the height for 50 DIVs */
         background:#026873;
     }

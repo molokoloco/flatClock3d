@@ -26,7 +26,7 @@
 
 !function ($) {
 
-    "use strict"; // jshint ;_;
+    "use strict";
 
    /* ROTATOR 3D 
     * Credits (before refactoring) : http://www.laplace2be.com/projects/phone/
@@ -36,23 +36,24 @@
         
         this.settings = $.extend(true, {}, $.fn.rotator3d.defaults, typeof options == 'object' && options || {});
     
-        this.element = element;
-        this.shadow = this.settings.shadow;
-        this.reflet = this.settings.reflet;
-        this.refletBack = this.settings.refletBack;
-        this.newRotationX = this.settings.rotationX;
-        this.newRotationY = this.settings.rotationY;
+        this.element          = element;
+        this.shadow           = this.settings.shadow;
+        this.reflet           = this.settings.reflet;
+        this.refletBack       = this.settings.refletBack;
+        this.newRotationX     = this.settings.rotationX;
+        this.newRotationY     = this.settings.rotationY;
         this.currentRotationX = 0;
         this.currentRotationY = 0;
-        this.winW = 0;
-        this.winH = 0;
+        this.winW             = 0;
+        this.winH             = 0;
 
-        var that = this;
+        var that    = this,
+			$window = $(window);
         
         $(window)
             .on('resize', function() {
-                that.winW = $(window).width();
-                that.winH = $(window).height();
+                that.winW = $window.width();
+                that.winH = $window.height();
              })
             .trigger('resize');
         

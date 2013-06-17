@@ -18,33 +18,41 @@ $(function () { // DOM READY /////////////////////
         $('#clockBack,#refletBack').remove(); 
     }
     
-    var $content = $('#content'),
-        $rotator = $('#rotator'),
-        $clock   = $('#clock'),
-        $emboss  = $('#emboss'),
-        $d3      = $('#d3');
+    var $window   = $(window),
+		$content  = $('#content'),
+        $rotator  = $('#rotator'),
+        $clock    = $('#clock'),
+        $shadow   = $('#shadow'),
+		$emboss   = $('#emboss');
+        $d3       = $('#d3');
     
-    var cW       = $rotator.outerWidth(),
-        cH       = $rotator.outerHeight(),
-        browser  = null,
-        scale    = 0,
-        scaleMin = 0.2,
-        scaleMax = 1.5,
-        size     = null,
-        offset   = 0;
+    var cW        = $rotator.outerWidth(),
+        cH        = $rotator.outerHeight(),
+        browser   = null,
+        scale     = 0,
+		scaleMin  = 0.2,
+		scaleMax  = 1.5,
+        size      = null,
+        offset    = 0,
+		resizeInt = null;
     
     var scaleToFit = function() { // Auto-scale content to full screen
-        browser = [$(window).innerWidth(), $(window).innerHeight()];
-        scale   = (Math.min(browser[0] / cW, browser[1] / cH)) * 0.8; // scaleToFit - 20% marging
-        scale   = Math.min(scaleMax, scale); // Don't scale too much
-        scale   = Math.max(scaleMin, scale);
-        size    = [cW * scale, cH * scale];
-        offset  = [(browser[0] - size[0]) / 2, (browser[1] - size[1]) / 2];
-        $content.css({transform: 'translate('+offset[0]+'px, '+offset[1]+'px) scale('+scale+')'});
-    };
+			// https://hacks.mozilla.org/2013/05/optimizing-your-javascript-game-for-firefox-os/
+			browser = [$window.innerWidth(), $window.innerHeight()];
+			scale   = (Math.min(browser[0] / cW, browser[1] / cH)) * 0.8; // scaleToFit - 20% marging
+			scale   = Math.min(scaleMax, scale); // Don't scale too much
+			scale   = Math.max(scaleMin, scale);
+			size    = [cW * scale, cH * scale];
+			offset  = [(browser[0] - size[0]) / 2, (browser[1] - size[1]) / 2];
+			$content.css({transform: 'translate('+offset[0]+'px, '+offset[1]+'px) scale('+scale+')'});
+		},
+		callScaleToFit = function() { // Simple debounce
+			if (resizeInt) clearInterval(resizeInt);
+			resizeInt = setInterval(scaleToFit, 250);
+		};
         
-    $(window)
-        .on('resize', scaleToFit)
+    $window
+        .on('resize', callScaleToFit)
         .trigger('resize');
     
     /* var landscapeOrientation = window.innerWidth/window.innerHeight > 1;
@@ -86,7 +94,7 @@ $(function () { // DOM READY /////////////////////
             if (Modernizr.csstransforms3d)
                 $('#clockBack,#refletBack,#clockBorder,#shadow,.side').show();
         }
-        $(window).trigger('resize'); // Re-scale
+        $window.trigger('resize'); // Re-scale
     });
     
     if (window.isMobile) setTimeout(function () { window.scrollTo(0, 1); }, 0);
