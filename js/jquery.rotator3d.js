@@ -24,7 +24,7 @@
 * ============================================================== */
 
 
-!function ($) {
+!function ($, window) {
 
     "use strict";
 
@@ -46,9 +46,10 @@
         this.currentRotationY = 0;
         this.winW             = 0;
         this.winH             = 0;
+        this.paused           = false;
 
         var that    = this,
-			$window = $(window);
+            $window = $(window);
         
         $(window)
             .on('resize', function() {
@@ -60,10 +61,10 @@
         if (window.isMobile) {
            var orient = function(event) {
                 if (!that.settings.moveMouseEnabled || !that.settings.is3D) return;
-                var x = event.beta, // z = event.alpha,
-                    y = event.gamma;
-                that.newRotationY = (window.isMozMobile ? y : -y);
-                that.newRotationX = (window.isMozMobile ? -x : x);
+                var rotx = event.beta, // rotz = event.alpha,
+                    roty = event.gamma;
+                that.newRotationY = (window.isMozMobile ? roty : -roty);
+                that.newRotationX = (window.isMozMobile ? -rotx : rotx);
            };
            //if ('deviceorientation' in window) // FF mobile ?? bug ?
            window.addEventListener('deviceorientation', orient, false);
@@ -72,19 +73,20 @@
 
         var mouseIsMove = function(event) { // Cross browser mousemouve/pointer/etc.. http://handjs.codeplex.com/
                 if (!that.settings.moveMouseEnabled || !that.settings.is3D) return;
+                event.preventDefault();
                 that.newRotationY = -(event.pageX - that.winW * 0.5) * 0.15;
                 that.newRotationX = -(event.pageY - that.winH * 0.5) * .5;
             },
             mouseEnter = function(event) {
-                if (!that.settings.is3D) return;
-                that.settings.moveMouseEnabled = true;
+                if (!that.settings.is3D || !that.settings.moveMouseEnabled) return;
+                that.paused  = false;
                 that.update();
-                document.addEventListener('pointermove', mouseIsMove);
+                document.addEventListener('pointermove', mouseIsMove, false);
             },
             mouseLeave = function(event) {
-                if (!that.settings.is3D) return;
+                if (!that.settings.is3D || !that.settings.moveMouseEnabled) return;
                 document.removeEventListener('pointermove', mouseIsMove, false);
-                that.settings.moveMouseEnabled = false;
+                that.paused  = true; // User iddle state
                 that.refresh();
             };
 
@@ -94,7 +96,7 @@
             .trigger('mouseenter');
         
         that.refresh();
-        this.update();
+        that.update();
     };
     
     rotator3d.prototype = {
@@ -113,34 +115,51 @@
             return value;
         },
         
-        update: function () {
-            if (!this.settings.moveMouseEnabled || !this.settings.is3D) return;
-            this.currentRotationX += (this.newRotationX - this.currentRotationX) * 0.1;
-            this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
-            if (parseInt(this.currentRotationY * 10) != parseInt(this.newRotationY * 10) || parseInt(this.currentRotationX * 10) != parseInt(this.newRotationX * 10)) {
-               this.element.css({
-                    rotateY: this.currentRotationY + 'deg',
-                    rotateX: this.currentRotationX + 'deg'
-                });
-                if (this.shadow) {
-                    // jQuery transit do not manage translateZ() http://ricostacruz.com/jquery.transit/
-                    // Fall back to old mod :( // keep the same order as rotator !!! : (1) rotateY (2) rotateX...
-                    this.shadow.css({
-                        transform:'translate3d(80px,80px,-400px) rotateY('+(-this.currentRotationY)+'deg) rotateX('+(-this.currentRotationX)+'deg) scale(1.5,1.5)'
-                    });
-                }
-                if (this.reflet) this.reflet.css({
-                    backgroundPosition: this.limitedValue(this.currentRotationY, -180, 180) * -5 + "px 0px"
-                });
-                if (this.refletBack) this.refletBack.css({
-                    backgroundPosition: (this.limitedValue(this.currentRotationY, 0, 360) - 180) * 5 + "px 0px"
-                });
-            }
-            
-            requestAnimationFrame(this.update.bind(this));
+        rotate3d: function(rotationX, rotationY) {
+            this.element.css({
+                rotateX: rotationX,
+                rotateY: rotationY
+            });
+            if (this.shadow) this.shadow.css({
+                transform:'translate3d(80px,80px,-400px) rotateY('+(-rotationY)+'deg) rotateX('+(-rotationX)+'deg) scale(1.5,1.5)'
+            });
+            if (this.reflet) this.reflet.transition({
+                backgroundPosition: this.limitedValue(rotationY, -180, 180) * -5 + "px 0px"
+            }, 1200);
+            if (this.refletBack) this.refletBack.transition({
+                backgroundPosition: (this.limitedValue(rotationY, 0, 360) - 180) * 5 + "px 0px"
+            }, 1200);
         },
         
-        toggle3d:  function () {
+        refresh: function() {
+            this.rotate3d(this.settings.rotationX, this.settings.rotationY);
+        },
+        
+        update: function () {
+            if (!this.settings.moveMouseEnabled || !this.settings.is3D) return;
+            if (
+                parseInt(this.currentRotationY * 10) != parseInt(this.newRotationY * 10)
+             || parseInt(this.currentRotationX * 10) != parseInt(this.newRotationX * 10)) {
+                this.currentRotationX += (this.newRotationX - this.currentRotationX) * 0.1;
+                this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
+                this.rotate3d(this.currentRotationX, this.currentRotationY);
+            }
+            if (!this.paused) window.requestAnimationFrame(this.update.bind(this));
+        },
+        
+        presets: function(view) { // Predefined angles ?
+            if (view && (view in $.fn.rotator3d.views)){
+                this.settings.moveMouseEnabled = false;
+                this.rotate3d($.fn.rotator3d.views[view].x, $.fn.rotator3d.views[view].y);
+            }
+            else {
+                this.settings.moveMouseEnabled = true;
+                this.refresh();
+                this.update();
+            }
+        },
+        
+        toggle3d: function () {
             if (this.settings.is3D) {
                 this.settings.is3D = false;
                 this.settings.moveMouseEnabled = false;
@@ -153,22 +172,6 @@
                 if (this.shadow) this.shadow.show();
                 this.update();
             }
-        },
-        
-        refresh: function() {
-            this.element.css({
-                rotateX: this.settings.rotationX,
-                rotateY: this.settings.rotationY
-            });
-            if (this.shadow) this.shadow.css({
-                transform:'translate3d(80px,80px,-400px) rotateY('+(-this.settings.rotationY)+'deg) rotateX('+(-this.settings.rotationX)+'deg) scale(1.5,1.5)'
-            });
-            if (this.reflet) this.reflet.transition({
-                backgroundPosition: this.limitedValue(this.currentRotationY, -180, 180) * -5 + "px 0px"
-            }, 1200);
-            if (this.refletBack) this.refletBack.transition({
-                backgroundPosition: (this.limitedValue(this.currentRotationY, 0, 360) - 180) * 5 + "px 0px"
-            }, 1200);
         }
         
     };
@@ -177,28 +180,49 @@
     * =========================== */
 
     var old = $.fn.rotator3d;
+    
+    // Create jQuery plugin
+    // $('"monElement').rotator3d();
 
-    $.fn.rotator3d = function (options) {
+    $.fn.rotator3d = function (options, args) {
         return this.each(function() { // Iterate collections
             var $this = $(this),
                 data  = $this.data('rotator3d');
             if (!data) $this.data('rotator3d', (data = new rotator3d($this, options)));
-            if (typeof options == 'string') data[options]();
+            if (typeof options == 'string') {
+                if (args) data[options](args); // Add arguments for some methods
+                else      data[options]();
+            }
         });
     };
 
     $.fn.rotator3d.Constructor = rotator3d;
-
-    $.fn.rotator3d.defaults = { // Default values
-        shadow: null,
-        reflet: null,
-        refletBack: null,
-        is3D: true,
+    
+    // Plugin default values
+    $.fn.rotator3d.defaults = { 
+        shadow:           null,   // if element given : translate to Z and animate it like a shadow
+        reflet:           null,   // if element given : first plan animate a texture inside
+        refletBack:       null,   // if element given : last plan animate a texture inside
+        is3D:             true,   // Can be toggled via $rotator.rotator3d('toggle3d');
         moveMouseEnabled: true,
-        rotationX: 0,
-        rotationY: 0,
-        views: 0
+        rotationX:        0,      // Starting and default rotationX value
+        rotationY:        0       // Starting and default rotationY value
     };
+    
+    // Some Presets values
+    // Ex. : $e.rotator3d('presets', 'squareRoot');
+    $.fn.rotator3d.views = { // Perspective if from : #content { -webkit-transform-origin: 0px 0px; }
+        front:       {x: 0, y: 0},
+        back:        {x: 0, y: 180},
+        appleFront:  {x: 0, y: -30}, 
+        appleBack:   {x: 0, y: -140},
+        frontFloor:  {x: 0, y: 90},
+        backFloor:   {x: 0, y: -90},
+        sideRight:   {x: -90, y: 0},
+        sideLeft:    {x: 90, y: 0},
+        squareRoot:  {x: 45, y: 45}
+    };
+    
 
    /* ROTATOR3D NO CONFLICT
     * ===================== */
@@ -218,4 +242,4 @@
         })
     });
 
-}(window.jQuery);
+}(window.jQuery, window);

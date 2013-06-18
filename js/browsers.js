@@ -1,6 +1,8 @@
 (function () { // Cross mobile detect // requestAnimationFrame
-
-    window.isMobile = (Modernizr.touch ? true : false); // http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser/16836337#16836337
+    
+    // http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser/16836337#16836337
+    if ('Modernizr' in window) window.isMobile = (Modernizr.touch ? true : false);
+    else                       window.isMobile = (/Mobile/i.test(navigator.userAgent));
 
     window.isMozMobile = (/Firefox/i.test(navigator.userAgent) && /Android/i.test(navigator.userAgent));
 

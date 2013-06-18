@@ -101,7 +101,7 @@
         -moz-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
         -ms-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
     }
-	
+    
 /* ------- JS works with this elements ------ */
 
 div.innerCenter { /* Circle inside clock */
@@ -243,30 +243,36 @@ div.date {
 
 /* ------- 3D Rotate example ------ */
 
+.smoothTransTransition {
+    -webkit-transition:-webkit-transform 400ms ease-in-out;
+    -moz-transition:-moz-transform 400ms ease-in-out;
+    -ms-transition:-ms-transform 400ms ease-in-out;
+    -o-transition:-o-transform 400ms ease-in-out;
+    transition:transform 400ms ease-in-out;
+}
+
+
 /* #content auto-scaled SCENE in main.js */
 
 #content { 
-    -webkit-transform-origin:0 0;
+    -webkit-transform-origin:0 0;  /* Perspective start point (Change general scene) */
     -moz-transform-origin:0 0;
     -ms-transform-origin:0 0;
     -o-transform-origin:0 0;
     transform-origin:0 0;
+    
     -webkit-perspective: 700px;
     -moz-perspective: 700px;
     -ms-perspective: 700px;
     -o-perspective: 700px;
     perspective: 700px;
+    
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     -ms-transform-style: preserve-3d;
     -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
-	-webkit-transition:transform 250ms ease-in-out;
-    -moz-transition:transform 250ms ease-in-out;
-    -ms-transition:transform 250ms ease-in-out;
-    -o-transition:transform 250ms ease-in-out;
-	transition:transform 250ms ease-in-out;
-
+    
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -285,13 +291,13 @@ div.date {
 #clockBack { z-index:7; }
 #refletBack { z-index:6; }
 
-#rotator, #shadow { /* SOURCE : http://www.laplace2be.com/projects/phone/ */
+#rotator, #shadow { 
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     -ms-transform-style: preserve-3d;
     -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
-	/* #shadow will be translated by jquery.rotator3d.js */
+    /* #shadow will be translated by jquery.rotator3d.js */
     -webkit-transform:translateZ(0);
     -moz-transform:translateZ(0);
     -ms-transform:translateZ(0);
