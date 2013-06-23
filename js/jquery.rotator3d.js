@@ -26,7 +26,7 @@
 
 !function ($, window) {
 
-    "use strict";
+    //"use strict";
 
    /* ROTATOR 3D 
     * Credits (before refactoring) : http://www.laplace2be.com/projects/phone/
@@ -84,7 +84,7 @@
                 document.addEventListener('pointermove', mouseIsMove, false);
             },
             mouseLeave = function(event) {
-                if (!that.settings.is3D || !that.settings.moveMouseEnabled) return;
+				console.log('mouseLeave');
                 document.removeEventListener('pointermove', mouseIsMove, false);
                 that.paused  = true; // User iddle state
                 that.refresh();
@@ -123,12 +123,12 @@
             if (this.shadow) this.shadow.css({
                 transform:'translate3d(80px,80px,-400px) rotateY('+(-rotationY)+'deg) rotateX('+(-rotationX)+'deg) scale(1.5,1.5)'
             });
-            if (this.reflet) this.reflet.transition({
-                backgroundPosition: this.limitedValue(rotationY, -180, 180) * -5 + "px 0px"
-            }, 1200);
-            if (this.refletBack) this.refletBack.transition({
-                backgroundPosition: (this.limitedValue(rotationY, 0, 360) - 180) * 5 + "px 0px"
-            }, 1200);
+            if (this.reflet) this.reflet.css({
+                backgroundPosition: this.limitedValue(rotationY, -180, 180) * -5 + 'px 0'
+            });
+            if (this.refletBack) this.refletBack.css({
+                backgroundPosition: this.limitedValue(rotationY, -180, 180) * 5 + 'px 0'
+            });
         },
         
         refresh: function() {
@@ -136,7 +136,7 @@
         },
         
         update: function () {
-            if (!this.settings.moveMouseEnabled || !this.settings.is3D) return;
+            if (!this.settings.moveMouseEnabled || !this.settings.is3D || this.paused) return;
             if (
                 parseInt(this.currentRotationY * 10) != parseInt(this.newRotationY * 10)
              || parseInt(this.currentRotationX * 10) != parseInt(this.newRotationX * 10)) {
@@ -144,7 +144,7 @@
                 this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
                 this.rotate3d(this.currentRotationX, this.currentRotationY);
             }
-            if (!this.paused) window.requestAnimationFrame(this.update.bind(this));
+            window.requestAnimationFrame(this.update.bind(this));
         },
         
         presets: function(view) { // Predefined angles ?

@@ -69,7 +69,7 @@ $(function () { // DOM READY /////////////////////
 
     // Create Clock with plugin
     $clock.analogueClock({ 
-        withDate:false,
+        withDate:true,
         withDigitalTime:false
     });
     

@@ -2,37 +2,37 @@
     // Mutli-screen flat 3D analogue clock (V2.7) with jQuery & CSS3 - No image, no webGL
     // By molokoloco@gmail.com 05/2013
     
-    // Demo : http://molokoloco.github.io/flatClock3d/
+    // Demo :http://molokoloco.github.io/flatClock3d/
     
-    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
-    // GitHub sources : https://github.com/molokoloco/flatClock3d
-    // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
-    // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
+    // Infos :http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
+    // GitHub sources :https://github.com/molokoloco/flatClock3d
+    // jsFiddle 2D :http://jsfiddle.net/molokoloco/V2rFN/
+    // jsFiddle + 3D :http://jsfiddle.net/molokoloco/x6yc3/
 
-    // Colors : easy to change, Sizes and positions : more tricky
+    // Colors :easy to change, Sizes and positions :more tricky
     // Colors are based on a white semi-transparent theme :
     // replace "255,255,255" by "0,0,0" to blackify... or wathever you want
     // Mostly elements that need to be centered... are centered in JS,
     // So only kee in mind your SIZES ((---MOD---))
 */
 
-/* ------- Clock container ------ */
-/* Debug: div { border:1px solid rgba(0,0,0,0.5); } */
+/* Debug:div { border:1px solid rgba(0,0,0,0.5); } */
+
+/* ------- Clock container : SIZES ------ */
 
 #content {
-    width:260px;
+    width:260px; /* GLobale cloack size */
     height:260px;
-    position: relative;
+    position:relative;
 }
 
-#rotator,
+#rotator, /* layered and wrapped inside content */
 #shadow,
 #clock,
 #clockBack,
 #reflet,
-#refletBack,
-#clockBorder { /* layered and wrapped inside content */
-    position:absolute;
+#refletBack { 
+    position:absolute; /* or fixed */
     top:0;
     left:0;
     right:0;
@@ -40,9 +40,25 @@
     border-radius:50%;
 }
 
-#rotator {
-    border-radius:0;
+#clockBorder { /* Contract borders cylinder inside clock, because it's a polygon not so smooth */
+	position:absolute;
+	top:1px;
+	left:1px;
+	right:1px;
+	bottom:1px;
 }
+
+/* Create renderLayer objects but are a 3D translateZ fallback */
+#rotator { z-index:1; border-radius:0; } /* As we do not need radius : perf gain */
+#shadow { z-index:0; }
+
+#reflet { z-index:10; }
+#clock { z-index:9; }
+#clockBorder { z-index:8; }
+#clockBack { z-index:7; }
+#refletBack { z-index:6; }
+
+/* ------- Clock container : COLORS ------ */
 
 #clock,
 #clockBack {
@@ -72,25 +88,25 @@
         -ms-box-shadow:none;
         -o-box-shadow:none;
         box-shadow:none;
-        -webkit-filter: blur(5px);
-        -moz-filter: blur(5px);
-        -ms-filter: blur(5px);
-        -o-filter: blur(5px);
-        filter: blur(5px);
+        -webkit-filter:blur(5px);
+        -moz-filter:blur(5px);
+        -ms-filter:blur(5px);
+        -o-filter:blur(5px);
+        filter:blur(5px);
     }
 
 /* background-position is animated by jquery.rotator3d.js */
 
 #reflet, 
 #refletBack {
-    background-image: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 49%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
-    background-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(49%,rgba(255,255,255,0.25)), color-stop(50%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
-    background-image: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    background-image: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    background-image: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    background-image: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
-    background-repeat: no-repeat;
+    background-image:-moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 49%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
+    background-image:-webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(49%,rgba(255,255,255,0.25)), color-stop(50%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
+    background-image:-webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image:-o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image:-ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    background-image:linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.25) 49%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
+    background-repeat:no-repeat;
     background-size:300px 300px;
 }
     .emboss #reflet,
@@ -102,7 +118,7 @@
         -ms-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
     }
     
-/* ------- JS works with this elements ------ */
+/* ------- DIGITAL CLOCK - JS works with this elements ------ */
 
 div.innerCenter { /* Circle inside clock */
     position:absolute;
@@ -159,7 +175,7 @@ div.clockwise {
     position:absolute;
     left:0;
     right:0;
-    bottom:114px; /* (---MOD---) clockH/2 - 8 : center of the #clock, minus junction */
+    bottom:114px; /* (---MOD---) clockH/2 - 8 :center of the #clock, minus junction */
     background:#FFF;
     background:rgba(255, 255, 255, 0.4);
     border-radius:4px;
@@ -176,7 +192,6 @@ div.digit {
     position:absolute;
     top:130px;
     left:130px;
-    z-index:5;
     width:36px;
     height:36px; /* (---MOD---) */
     font:24px/36px 'Orbitron', arial, verdana, sans-serif; /* (---MOD---) */
@@ -217,7 +232,6 @@ div.digit span {
 }
 div.unit {
     position:absolute;
-    z-index:8;
     top:130px;
     left:130px;
     width:2px;
@@ -227,13 +241,12 @@ div.unit {
 div.time,
 div.date {
     position:absolute;
-    z-index:5;
     top:152px;
     left:0; /* (---MOD---) */
     width:260px;
     height:24px; /* (---MOD---) */
     text-align:center;
-    font:22px/24px'Courrier New', 'Courier', serif; /* (---MOD---) */
+    font:16px/24px 'Orbitron', arial, verdana, sans-serif; /* (---MOD---) */
     color:#FFF;
     color:rgba(255, 255, 255, 0.33);
 }
@@ -241,7 +254,7 @@ div.date {
     top:170px; /* (---MOD---) */
 }
 
-/* ------- 3D Rotate example ------ */
+/* ------- 3D Rotate Animation smoothing ------ */
 
 .smoothTransTransition {
     -webkit-transition:-webkit-transform 400ms ease-in-out;
@@ -251,52 +264,41 @@ div.date {
     transition:transform 400ms ease-in-out;
 }
 
+/* ------- 3D Rotate Animation ------ */
 
-/* #content auto-scaled SCENE in main.js */
-
-#content { 
+#content { /* #content auto-scaled SCENE in main.js */
     -webkit-transform-origin:0 0;  /* Perspective start point (Change general scene) */
     -moz-transform-origin:0 0;
     -ms-transform-origin:0 0;
     -o-transform-origin:0 0;
     transform-origin:0 0;
     
-    -webkit-perspective: 700px;
-    -moz-perspective: 700px;
-    -ms-perspective: 700px;
-    -o-perspective: 700px;
-    perspective: 700px;
+    -webkit-perspective:700px;
+    -moz-perspective:700px;
+    -ms-perspective:700px;
+    -o-perspective:700px;
+    perspective:700px;
     
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
+    -webkit-transform-style:preserve-3d;
+    -moz-transform-style:preserve-3d;
+    -ms-transform-style:preserve-3d;
+    -o-transform-style:preserve-3d;
+    transform-style:preserve-3d;
     
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    pointer-events: none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    pointer-events:none;
 }
 
-/* sofware 3d fallback */
-#rotator { z-index:1; }
-#shadow { z-index:0; }
-
-#reflet { z-index:10; }
-#clock { z-index:9; }
-#clockBorder { z-index:8; }
-#clockBack { z-index:7; }
-#refletBack { z-index:6; }
-
-#rotator, #shadow { 
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
+#rotator, #shadow { /* Our two main rotated elements */
+    -webkit-transform-style:preserve-3d;
+    -moz-transform-style:preserve-3d;
+    -ms-transform-style:preserve-3d;
+    -o-transform-style:preserve-3d;
+    transform-style:preserve-3d;
     /* #shadow will be translated by jquery.rotator3d.js */
     -webkit-transform:translateZ(0);
     -moz-transform:translateZ(0);
@@ -310,24 +312,24 @@ div.date {
 #reflet,
 #refletBack,
 .side {
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
-    backface-visibility: hidden;
-    /*-webkit-transform-style: flat;
-    -moz-transform-style: flat;
-    -ms-transform-style: flat;
-    -o-transform-style: flat;
-    transform-style: flat;*/
+    -webkit-backface-visibility:hidden;
+    -moz-backface-visibility:hidden;
+    -ms-backface-visibility:hidden;
+    -o-backface-visibility:hidden;
+    backface-visibility:hidden;
+    /*-webkit-transform-style:flat;
+    -moz-transform-style:flat;
+    -ms-transform-style:flat;
+    -o-transform-style:flat;
+    transform-style:flat;*/
 }
 
 #clockBack {
-    -webkit-transform: rotateY(180deg) translateZ(8px);
-    -moz-transform: rotateY(180deg) translateZ(8px);
-    -ms-transform: rotateY(180deg) translateZ(8px);
-    -o-transform: rotateY(180deg) translateZ(8px);
-    transform: rotateY(180deg) translateZ(8px);
+    -webkit-transform:rotateY(180deg) translateZ(8px);
+    -moz-transform:rotateY(180deg) translateZ(8px);
+    -ms-transform:rotateY(180deg) translateZ(8px);
+    -o-transform:rotateY(180deg) translateZ(8px);
+    transform:rotateY(180deg) translateZ(8px);
 }
 
 #reflet {
@@ -339,11 +341,11 @@ div.date {
 }
 
 #refletBack {
-    -webkit-transform: rotateY(-180deg) translateZ(9px);
-    -moz-transform: rotateY(-180deg) translateZ(9px);
-    -ms-transform: rotateY(-180deg) translateZ(9px);
-    -o-transform: rotateY(-180deg) translateZ(9px);
-    transform: rotateY(-180deg) translateZ(9px);
+    -webkit-transform:rotateY(-180deg) translateZ(9px);
+    -moz-transform:rotateY(-180deg) translateZ(9px);
+    -ms-transform:rotateY(-180deg) translateZ(9px);
+    -o-transform:rotateY(-180deg) translateZ(9px);
+    transform:rotateY(-180deg) translateZ(9px);
 }
 
 #clockBorder {
@@ -352,17 +354,17 @@ div.date {
     -ms-transform:translateZ(-4px);
     -o-transform:translateZ(-4px);
     transform:translateZ(-4px);
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
+    -webkit-transform-style:preserve-3d;
+    -moz-transform-style:preserve-3d;
+    -ms-transform-style:preserve-3d;
+    -o-transform-style:preserve-3d;
+    transform-style:preserve-3d;
 }
     .side { /* fake polygones cylinder */
-        position: absolute;
+        position:absolute;
         top:130px;
         left:130px;
-        width: 19px;
-        height: 10px; /* this is the height for 50 DIVs */
+        width:19px;
+        height:10px; /* this is the height for 50 DIVs */
         background:#026873;
     }
