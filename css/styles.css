@@ -32,7 +32,7 @@ a:visited {
     text-decoration:none;
 }
 a:hover {
-	color:rgba(0,0,0,.8);
+    color:rgba(0,0,0,.8);
 }
 
 /* ------- Fancy CSS3 background example ------ */
@@ -48,18 +48,18 @@ body {
 }
 
 /* ------- DEMOS LINKS ------ */
-	
+    
 .ctrls {
     display:block;
     position:absolute;
     font: 12px "Orbitron", arial, sans;
-	z-index:10;
+    z-index:10;
 }
     #infos {
-		top:10px;
-		left:10px;
-	}
-	#emboss {
+        top:10px;
+        left:10px;
+    }
+    #emboss {
         left:10px;
         bottom:10px;
     }

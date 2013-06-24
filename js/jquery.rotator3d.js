@@ -30,8 +30,8 @@
 
    /* ROTATOR 3D 
     * Credits (before refactoring) : 
-	* http://www.laplace2be.com/projects/phone/
-	* http://lenticular.attasi.com/js/base.js
+    * http://www.laplace2be.com/projects/phone/
+    * http://lenticular.attasi.com/js/base.js
     * ========================== */
 
     var rotator3d = function (element, options) {
@@ -87,8 +87,8 @@
             },
             mouseLeave = function(event) {
                 document.removeEventListener('pointermove', mouseIsMove, false);
-                that.paused  = true; // User iddle state
-                that.refresh();
+//that.paused  = true; // User iddle state
+//that.refresh();
             };
 
         $(document)
@@ -121,20 +121,18 @@
                 rotateX: rotationX,
                 rotateY: rotationY
             });
-            /*
-			if (this.shadow) this.shadow.css({
-                // translate moved to #shadowBox container
-				// transform:'translate3d(80px,80px,-400px) rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg) scale(2)'
-				transform:'rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg)'
-				// Does not produce the same rotation as the jqueryTransit above ?
+            if (this.shadow) this.shadow.css({
+                rotateX: rotationX - 180,
+                rotateY: rotationY - 180
             });
-			*/
-			if (this.shadow) this.shadow.css({
-                rotateX: -rotationX,
-                rotateY: -rotationY
-            });
+			// if (this.shadow) this.shadow.css({
+                // transform:'translate3d(80px,80px,-400px) rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg) scale(2)'
+				// translate moved to #shadowBox container
+                // transform:'rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg)'
+                // Does not produce the same rotation as the jqueryTransit above ?
+            // });
             if (this.reflet) this.reflet.css({
-                backgroundPosition: this.limitedValue(rotationY, -180, 180) * -5 + 'px 0'
+                backgroundPosition: this.limitedValue(rotationY, -180, 180) * -5 + 'px 0' //this.limitedValue(rotationY, -180, 180)
             });
             if (this.refletBack) this.refletBack.css({
                 backgroundPosition: this.limitedValue(rotationY, -180, 180) * 5 + 'px 0'
@@ -150,11 +148,11 @@
             else if (
                 parseInt(this.currentRotationY * 10) != parseInt(this.newRotationY * 10)
              || parseInt(this.currentRotationX * 10) != parseInt(this.newRotationX * 10)) {
-					this.currentRotationX += (this.newRotationX - this.currentRotationX) * 0.1;
-					this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
-					this.rotate3d(this.currentRotationX, this.currentRotationY);
+                    this.currentRotationX += (this.newRotationX - this.currentRotationX) * 0.1;
+                    this.currentRotationY += (this.newRotationY - this.currentRotationY) * 0.1;
+                    this.rotate3d(this.currentRotationX, this.currentRotationY);
             }
-			window.requestAnimationFrame(this.update.bind(this));
+            window.requestAnimationFrame(this.update.bind(this));
         },
         
         presets: function(view) { // Predefined angles ?

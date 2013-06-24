@@ -42,11 +42,11 @@
 }
 
 #clockBorder { /* Contract borders cylinder inside clock, because it's a polygon not so smooth */
-	position:absolute;
-	top:1px;
-	left:1px;
-	right:1px;
-	bottom:1px;
+    position:absolute;
+    top:1px;
+    left:1px;
+    right:1px;
+    bottom:1px;
 }
 
 /* Create renderLayer objects but are a 3D translateZ fallback */
@@ -99,7 +99,7 @@
 }
 
 #rotator, #shadowBox { /* Our two main rotated elements */
-	-webkit-transform-origin:130px 130px;
+    -webkit-transform-origin:130px 130px;
     -moz-transform-origin:130px 130px;
     -ms-transform-origin:130px 130px;
     -o-transform-origin:130px 130px;
@@ -122,11 +122,11 @@
 
 #shadowBox {
     /* #shadow will be rotated by jquery.rotator3d.js and is translated here */
-    -webkit-transform:translate3d(65px,65px,-400px) scale(1.6);
-    -moz-transform:translate3d(65px,65px,-400px) scale(1.6);
-    -ms-transform:translate3d(65px,65px,-400px) scale(1.6);
-    -o-transform:translate3d(65px,65px,-400px) scale(1.6);
-    transform:translate3d(65px,65px,-400px) scale(1.6);
+    -webkit-transform:translate3d(65px,65px,-400px) rotateY(180deg) scale(1.6);
+    -moz-transform:translate3d(65px,65px,-400px) rotateY(180deg) scale(1.6);
+    -ms-transform:translate3d(65px,65px,-400px) rotateY(180deg) scale(1.6);
+    -o-transform:translate3d(65px,65px,-400px) rotateY(180deg) scale(1.6);
+    transform:translate3d(65px,65px,-400px) rotateY(180deg) scale(1.6);
 }
 
 #clock,
