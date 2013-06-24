@@ -87,8 +87,8 @@
             },
             mouseLeave = function(event) {
                 document.removeEventListener('pointermove', mouseIsMove, false);
-//that.paused  = true; // User iddle state
-//that.refresh();
+                that.paused  = true; // User iddle state
+                that.refresh();
             };
 
         $(document)
@@ -125,9 +125,9 @@
                 rotateX: rotationX - 180,
                 rotateY: rotationY - 180
             });
-			// if (this.shadow) this.shadow.css({
+            // if (this.shadow) this.shadow.css({
                 // transform:'translate3d(80px,80px,-400px) rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg) scale(2)'
-				// translate moved to #shadowBox container
+                // translate moved to #shadowBox container
                 // transform:'rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg)'
                 // Does not produce the same rotation as the jqueryTransit above ?
             // });
