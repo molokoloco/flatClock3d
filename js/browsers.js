@@ -13,6 +13,18 @@
           $metas.attr('content', 'width=device-width, minimum-scale=0.25, maximum-scale=1.6');
         }, false);
     }
+	
+	
+	var transitionEndEvent = {
+		'WebkitTransition': 'webkitTransitionEnd',
+		'MozTransition': 'transitionend',
+		'OTransition': 'oTransitionEnd',
+		'msTransition': 'MSTransitionEnd',
+		'transition': 'transitionend'
+	};
+	
+	if ('Modernizr' in window) window.transitionEndProperty = transitionEndEvent[Modernizr.prefixed('transition')];
+	else                       window.transitionEndProperty = false; // hum
 
     if (!('requestAnimationFrame' in window)) {
         var lastTime = 0,

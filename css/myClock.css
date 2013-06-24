@@ -27,6 +27,7 @@
 }
 
 #rotator, /* layered and wrapped inside content */
+#shadowBox,
 #shadow,
 #clock,
 #clockBack,
@@ -50,13 +51,145 @@
 
 /* Create renderLayer objects but are a 3D translateZ fallback */
 #rotator { z-index:1; border-radius:0; } /* As we do not need radius : perf gain */
-#shadow { z-index:0; }
+#shadowBox { z-index:0; }
 
 #reflet { z-index:10; }
 #clock { z-index:9; }
 #clockBorder { z-index:8; }
 #clockBack { z-index:7; }
 #refletBack { z-index:6; }
+
+/* ------- 3D Rotate Animation smoothing ------ */
+
+.smoothTransTransition {
+    -webkit-transition:-webkit-transform 400ms ease-in-out;
+    -moz-transition:-moz-transform 400ms ease-in-out;
+    -ms-transition:-ms-transform 400ms ease-in-out;
+    -o-transition:-o-transform 400ms ease-in-out;
+    transition:transform 400ms ease-in-out;
+}
+
+/* ------- 3D Rotate Animation ------ */
+
+#content { 
+    -webkit-transform-origin:0 0; /* #content auto-scaled SCENE in main.js */
+    -moz-transform-origin:0 0;
+    -ms-transform-origin:0 0;
+    -o-transform-origin:0 0;
+    transform-origin:0 0;
+    
+    -webkit-perspective:700px;
+    -moz-perspective:700px;
+    -ms-perspective:700px;
+    -o-perspective:700px;
+    perspective:700px;
+    
+    -webkit-transform-style:preserve-3d;
+    -moz-transform-style:preserve-3d;
+    -ms-transform-style:preserve-3d;
+    -o-transform-style:preserve-3d;
+    transform-style:preserve-3d;
+    
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    pointer-events:none;
+}
+
+#rotator, #shadowBox { /* Our two main rotated elements */
+	-webkit-transform-origin:130px 130px;
+    -moz-transform-origin:130px 130px;
+    -ms-transform-origin:130px 130px;
+    -o-transform-origin:130px 130px;
+    transform-origin:130px 130px;
+	
+    -webkit-transform-style:preserve-3d;
+    -moz-transform-style:preserve-3d;
+    -ms-transform-style:preserve-3d;
+    -o-transform-style:preserve-3d;
+    transform-style:preserve-3d;
+}
+
+#rotator {
+    -webkit-transform:translateZ(0);
+    -moz-transform:translateZ(0);
+    -ms-transform:translateZ(0);
+    -o-transform:translateZ(0);
+    transform:translateZ(0);
+}
+
+#shadowBox {
+    /* #shadow will be rotated by jquery.rotator3d.js and is translated here */
+    -webkit-transform:translate3d(65px,65px,-400px) scale(1.6);
+    -moz-transform:translate3d(65px,65px,-400px) scale(1.6);
+    -ms-transform:translate3d(65px,65px,-400px) scale(1.6);
+    -o-transform:translate3d(65px,65px,-400px) scale(1.6);
+    transform:translate3d(65px,65px,-400px) scale(1.6);
+}
+
+#clock,
+#clockBack,
+#reflet,
+#refletBack,
+.side {
+    -webkit-backface-visibility:hidden;
+    -moz-backface-visibility:hidden;
+    -ms-backface-visibility:hidden;
+    -o-backface-visibility:hidden;
+    backface-visibility:hidden;
+    /*-webkit-transform-style:flat;
+    -moz-transform-style:flat;
+    -ms-transform-style:flat;
+    -o-transform-style:flat;
+    transform-style:flat;*/
+}
+
+#clockBack {
+    -webkit-transform:rotateY(180deg) translateZ(8px);
+    -moz-transform:rotateY(180deg) translateZ(8px);
+    -ms-transform:rotateY(180deg) translateZ(8px);
+    -o-transform:rotateY(180deg) translateZ(8px);
+    transform:rotateY(180deg) translateZ(8px);
+}
+
+#reflet {
+    -webkit-transform:translateZ(1px);
+    -moz-transform:translateZ(1px);
+    -ms-transform:translateZ(1px);
+    -o-transform:translateZ(1px);
+    transform:translateZ(1px);
+}
+
+#refletBack {
+    -webkit-transform:rotateY(-180deg) translateZ(9px);
+    -moz-transform:rotateY(-180deg) translateZ(9px);
+    -ms-transform:rotateY(-180deg) translateZ(9px);
+    -o-transform:rotateY(-180deg) translateZ(9px);
+    transform:rotateY(-180deg) translateZ(9px);
+}
+
+#clockBorder {
+    -webkit-transform:translateZ(-4px);
+    -moz-transform:translateZ(-4px);
+    -ms-transform:translateZ(-4px);
+    -o-transform:translateZ(-4px);
+    transform:translateZ(-4px);
+    -webkit-transform-style:preserve-3d;
+    -moz-transform-style:preserve-3d;
+    -ms-transform-style:preserve-3d;
+    -o-transform-style:preserve-3d;
+    transform-style:preserve-3d;
+}
+    .side { /* fake polygones cylinder */
+        position:absolute;
+        top:130px;
+        left:130px;
+        width:19px;
+        height:10px; /* this is the height for 50 DIVs */
+        background:#026873;
+    }
 
 /* ------- Clock container : COLORS ------ */
 
@@ -253,118 +386,3 @@ div.date {
 div.date {
     top:170px; /* (---MOD---) */
 }
-
-/* ------- 3D Rotate Animation smoothing ------ */
-
-.smoothTransTransition {
-    -webkit-transition:-webkit-transform 400ms ease-in-out;
-    -moz-transition:-moz-transform 400ms ease-in-out;
-    -ms-transition:-ms-transform 400ms ease-in-out;
-    -o-transition:-o-transform 400ms ease-in-out;
-    transition:transform 400ms ease-in-out;
-}
-
-/* ------- 3D Rotate Animation ------ */
-
-#content { /* #content auto-scaled SCENE in main.js */
-    -webkit-transform-origin:0 0;  /* Perspective start point (Change general scene) */
-    -moz-transform-origin:0 0;
-    -ms-transform-origin:0 0;
-    -o-transform-origin:0 0;
-    transform-origin:0 0;
-    
-    -webkit-perspective:700px;
-    -moz-perspective:700px;
-    -ms-perspective:700px;
-    -o-perspective:700px;
-    perspective:700px;
-    
-    -webkit-transform-style:preserve-3d;
-    -moz-transform-style:preserve-3d;
-    -ms-transform-style:preserve-3d;
-    -o-transform-style:preserve-3d;
-    transform-style:preserve-3d;
-    
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    -o-user-select:none;
-    user-select:none;
-    pointer-events:none;
-}
-
-#rotator, #shadow { /* Our two main rotated elements */
-    -webkit-transform-style:preserve-3d;
-    -moz-transform-style:preserve-3d;
-    -ms-transform-style:preserve-3d;
-    -o-transform-style:preserve-3d;
-    transform-style:preserve-3d;
-    /* #shadow will be translated by jquery.rotator3d.js */
-    -webkit-transform:translateZ(0);
-    -moz-transform:translateZ(0);
-    -ms-transform:translateZ(0);
-    -o-transform:translateZ(0);
-    transform:translateZ(0);
-}
-
-#clock,
-#clockBack,
-#reflet,
-#refletBack,
-.side {
-    -webkit-backface-visibility:hidden;
-    -moz-backface-visibility:hidden;
-    -ms-backface-visibility:hidden;
-    -o-backface-visibility:hidden;
-    backface-visibility:hidden;
-    /*-webkit-transform-style:flat;
-    -moz-transform-style:flat;
-    -ms-transform-style:flat;
-    -o-transform-style:flat;
-    transform-style:flat;*/
-}
-
-#clockBack {
-    -webkit-transform:rotateY(180deg) translateZ(8px);
-    -moz-transform:rotateY(180deg) translateZ(8px);
-    -ms-transform:rotateY(180deg) translateZ(8px);
-    -o-transform:rotateY(180deg) translateZ(8px);
-    transform:rotateY(180deg) translateZ(8px);
-}
-
-#reflet {
-    -webkit-transform:translateZ(1px);
-    -moz-transform:translateZ(1px);
-    -ms-transform:translateZ(1px);
-    -o-transform:translateZ(1px);
-    transform:translateZ(1px);
-}
-
-#refletBack {
-    -webkit-transform:rotateY(-180deg) translateZ(9px);
-    -moz-transform:rotateY(-180deg) translateZ(9px);
-    -ms-transform:rotateY(-180deg) translateZ(9px);
-    -o-transform:rotateY(-180deg) translateZ(9px);
-    transform:rotateY(-180deg) translateZ(9px);
-}
-
-#clockBorder {
-    -webkit-transform:translateZ(-4px);
-    -moz-transform:translateZ(-4px);
-    -ms-transform:translateZ(-4px);
-    -o-transform:translateZ(-4px);
-    transform:translateZ(-4px);
-    -webkit-transform-style:preserve-3d;
-    -moz-transform-style:preserve-3d;
-    -ms-transform-style:preserve-3d;
-    -o-transform-style:preserve-3d;
-    transform-style:preserve-3d;
-}
-    .side { /* fake polygones cylinder */
-        position:absolute;
-        top:130px;
-        left:130px;
-        width:19px;
-        height:10px; /* this is the height for 50 DIVs */
-        background:#026873;
-    }

@@ -31,6 +31,9 @@ a:visited {
     color: rgba(200, 200, 200, 0.9);
     text-decoration:none;
 }
+a:hover {
+	color:rgba(0,0,0,.8);
+}
 
 /* ------- Fancy CSS3 background example ------ */
 /* http://leaverou.me/css3patterns/#cicada-stripes */
@@ -45,20 +48,18 @@ body {
 }
 
 /* ------- DEMOS LINKS ------ */
-
+	
 .ctrls {
     display:block;
     position:absolute;
-    font: 12px "Orbitron", arial, sans; 
+    font: 12px "Orbitron", arial, sans;
+	z-index:10;
 }
-    .ctrls:hover {
-        color:rgba(0,0,0,.8);
-    }
     #infos {
-        top:10px;
-        left:10px;
-    }
-    #emboss {
+		top:10px;
+		left:10px;
+	}
+	#emboss {
         left:10px;
         bottom:10px;
     }
