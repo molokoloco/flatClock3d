@@ -107,8 +107,8 @@ $(function () { // DOM READY /////////////////////
     });
     
     $wireframe.on('click', function() { 
-        if ($rotator.is('.wireframe')) $rotator.removeClass('wireframe');
-        else                           $rotator.addClass('wireframe');
+        if ($content.is('.wireframe')) $content.removeClass('wireframe');
+        else                           $content.addClass('wireframe');
     });
     
     // Test with/out transform (2D and 3D)

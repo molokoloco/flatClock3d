@@ -16,13 +16,10 @@
     // So only kee in mind your SIZES ((---MOD---))
 */
 
-/* Debug:div { border:1px solid rgba(0,0,0,0.5); } */
-
-.wireframe, .wireframe * {
-    border:1px solid rgba(255, 255, 0, 0.75) !important;
-    background:rgba(200, 200, 200, 0.25) !important;
-    color:rgba(200, 200, 200, 0.75) !important;
-}
+/*
+Debug:
+   div { border:1px solid rgba(0,0,0,0.5); }
+*/
 
 /* ------- Clock container : SIZES ------ */
 
@@ -54,10 +51,18 @@
     right:1px;
     bottom:1px;
 }
+    .side { /* fake polygones cylinder  (50 DIVs tesselation) */
+        position:absolute;
+        top:130px;
+        left:130px;
+        width:17px; /* value setted by hand to join all in a circle, given the number */
+        height:10px; /* this is the height (extrusion) */
+        background:#026873;
+    }
 
 /* Create renderLayer objects but are a 3D translateZ fallback */
 #rotator { z-index:1; border-radius:0; } /* As we do not need radius : perf gain */
-#shadowBox { z-index:0; }
+#shadowBox { z-index:0; border-radius:0; }
 
 #reflet { z-index:10; }
 #clock { z-index:9; }
@@ -188,16 +193,15 @@
     -o-transform-style:preserve-3d;
     transform-style:preserve-3d;
 }
-    .side { /* fake polygones cylinder  (50 DIVs tesselation) */
-        position:absolute;
-        top:130px;
-        left:130px;
-        width:17px; /* value setted by hand to join all in a circle, given the number */
-        height:10px; /* this is the height (extrusion) */
-        background:#026873;
-    }
 
 /* ------- Clock container : COLORS ------ */
+
+.wireframe * {
+    border-color:rgba(0, 0, 0, 0) !important;
+    outline:1px solid rgba(255, 255, 0, 0.75) !important;
+    background:rgba(200, 200, 200, 0.125) !important;
+    color:rgba(255, 255, 255, 0.5) !important;
+}
 
 #clock,
 #clockBack {
