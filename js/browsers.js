@@ -1,11 +1,16 @@
 (function () { // Cross mobile detect // requestAnimationFrame
     
+    // MOBILE ?
     // http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser/16836337#16836337
     if ('Modernizr' in window) window.isMobile = (Modernizr.touch ? true : false);
     else                       window.isMobile = (/Mobile/i.test(navigator.userAgent));
-
+    
+    
+    // MOZILLA MOBILE ?
     window.isMozMobile = (/Firefox/i.test(navigator.userAgent) && /Android/i.test(navigator.userAgent));
-
+    
+    
+    // IPHONE ?
     if (/iPhone/i.test(navigator.userAgent)) {
         var $metas = $('meta[name=viewport]');
         $metas.attr('content', 'width=device-width, minimum-scale=1.0, maximum-scale=1.0');
@@ -14,7 +19,7 @@
         }, false);
     }
     
-    
+    // TRANSITION EVENT
     var transitionEndEvent = {
         'WebkitTransition': 'webkitTransitionEnd',
         'MozTransition': 'transitionend',
@@ -25,7 +30,9 @@
     
     if ('Modernizr' in window) window.transitionEndProperty = transitionEndEvent[Modernizr.prefixed('transition')];
     else                       window.transitionEndProperty = false; // hum
-
+    
+    
+    // REQUEST ANIMATION FRAME
     if (!('requestAnimationFrame' in window)) {
         var lastTime = 0,
             vendors = ['webkit', 'moz', 'ms', 'o'];

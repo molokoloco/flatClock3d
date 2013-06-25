@@ -3,11 +3,11 @@
     // By molokoloco@gmail.com 05/2013
     
     // Demo : http://molokoloco.github.io/flatClock3d/
-    
-    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // GitHub sources : https://github.com/molokoloco/flatClock3d
+    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
+   =============================================================
 */
 
 $(function () { // DOM READY /////////////////////
@@ -24,6 +24,7 @@ $(function () { // DOM READY /////////////////////
         $clock      = $('#clock'),
         $shadow     = $('#shadow'),
         $emboss     = $('#emboss'),
+        $wireframe  = $('#wireframe'),
         $toggleView = $('#toggleView'),
         $d3         = $('#d3');
     
@@ -105,18 +106,23 @@ $(function () { // DOM READY /////////////////////
         viewCurrent++;
     });
     
+    $wireframe.on('click', function() { 
+        if ($rotator.is('.wireframe')) $rotator.removeClass('wireframe');
+        else                           $rotator.addClass('wireframe');
+    });
+    
     // Test with/out transform (2D and 3D)
     $d3.on('click', function() { 
         if (scaleMax == 1.5) { // reset scale 2D too
             scaleMax = 1;
             scaleMin = 1;
-            $('#clockBack,#refletBack,#clockBorder,#shadow,.side').hide();
+            $('#clockBack,#refletBack,#clockBorder,#shadow').hide();
         }
         else {
             scaleMax = 1.5;
             scaleMin = 0.2;
             if (Modernizr.csstransforms3d)
-                $('#clockBack,#refletBack,#clockBorder,#shadow,.side').show();
+                $('#clockBack,#refletBack,#clockBorder,#shadow').show();
         }
         $window.trigger('resize'); // Re-scale 2D
         $rotator.rotator3d('toggle3d'); // Toggle 3D

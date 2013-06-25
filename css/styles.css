@@ -59,11 +59,12 @@ body {
         top:10px;
         left:10px;
     }
+    
     #emboss {
         left:10px;
-        bottom:10px;
+        bottom:70px;
     }
-    #toggleView {
+    #wireframe {
         left:10px;
         bottom:50px;
     }
@@ -71,7 +72,20 @@ body {
         left:10px;
         bottom:30px;
     }
+    #toggleView {
+        left:10px;
+        bottom:10px;
+    }
+    
     #twitter {
         right:10px;
         bottom:10px;
     }
+    
+    
+    
+    
+     <a href="javascript:void(0);" class="ctrls" id="emboss" title="Toggle emboss ?">Emboss ?</a>
+    <a href="javascript:void(0);" class="ctrls" id="wireframe" title="X-ray view ?">X-ray ?</a>
+    <a href="javascript:void(0);" class="ctrls" id="d3" title="Toggle CSS3 3D ?">2D/3D ?</a>
+    <a href="javascript:void(0);" class="ctrls" id="toggleView" title="Switch some presets views">Presets view ?</a>

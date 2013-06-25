@@ -37,7 +37,9 @@
     </div>
     
     <div id="content" class="smoothTransTransition">
-        <div id="shadowBox"><div id="shadow"></div></div>
+        <div id="shadowBox">
+            <div id="shadow"></div>
+        </div>
         <div id="rotator">
             <div id="clockBack"></div>
             <div id="refletBack"></div>
@@ -45,21 +47,23 @@
             <div id="reflet"></div>
         </div>
     </div>
+
+    <a href="javascript:void(0);" class="ctrls" id="emboss" title="Toggle emboss ?">Emboss ?</a>
+    <a href="javascript:void(0);" class="ctrls" id="wireframe" title="X-ray view ?">X-ray ?</a>
+    <a href="javascript:void(0);" class="ctrls" id="d3" title="Toggle CSS3 3D ?">2D/3D ?</a>
+    <a href="javascript:void(0);" class="ctrls" id="toggleView" title="Switch some presets views">Presets view ?</a>
     
-    <a href="javascript:void(0);" class="ctrls" id="emboss" title="Toggle emboss ?">Toggle emboss ?</a>
-    <a href="javascript:void(0);" class="ctrls" id="toggleView" title="Switch some presets views">Presets ?</a>
-    <a href="javascript:void(0);" class="ctrls" id="d3" title="Toggle CSS3 3D ?">3D view ?</a>
     <a href="https://twitter.com/molokoloco" class="ctrls" id="twitter">@molokoloco 2013</a>
     
     <!-- jQuery -->
     <script src="./js/jquery-1.9.1.min.js" type="text/javascript"></script>
     <!-- CrossBrowsers -->
     <script src="./js/jquery.transit.min.js" type="text/javascript"></script>
-    <script src="./js/browsers.js" type="text/javascript"></script>
+    <script src="./js/browsers.min.js" type="text/javascript"></script>
     <script src="./js/hand-1.0.12.min.js" type="text/javascript"></script>
     <!-- jQuery plugins -->
-    <script src="./js/jquery.rotator3d.js" type="text/javascript"></script>
-    <script src="./js/jquery.myClock.js" type="text/javascript"></script>
+    <script src="./js/jquery.rotator3d.min.js" type="text/javascript"></script>
+    <script src="./js/jquery.myClock.min.js" type="text/javascript"></script>
     <!-- Main -->
     <script src="./js/main.js" type="text/javascript"></script>
     

@@ -18,6 +18,12 @@
 
 /* Debug:div { border:1px solid rgba(0,0,0,0.5); } */
 
+.wireframe, .wireframe * {
+    border:1px solid rgba(255, 255, 0, 0.75) !important;
+    background:rgba(200, 200, 200, 0.25) !important;
+    color:rgba(200, 200, 200, 0.75) !important;
+}
+
 /* ------- Clock container : SIZES ------ */
 
 #content {
@@ -78,7 +84,7 @@
     -o-transform-origin:0 0;
     transform-origin:0 0;
     
-    -webkit-perspective:700px;
+    -webkit-perspective:700px; /* focale */
     -moz-perspective:700px;
     -ms-perspective:700px;
     -o-perspective:700px;
@@ -90,12 +96,12 @@
     -o-transform-style:preserve-3d;
     transform-style:preserve-3d;
     
-    -webkit-user-select:none;
+    /*-webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
     -o-user-select:none;
     user-select:none;
-    pointer-events:none;
+    pointer-events:none;*/
 }
 
 #rotator, #shadowBox { /* Our two main rotated elements */
@@ -182,12 +188,12 @@
     -o-transform-style:preserve-3d;
     transform-style:preserve-3d;
 }
-    .side { /* fake polygones cylinder */
+    .side { /* fake polygones cylinder  (50 DIVs tesselation) */
         position:absolute;
         top:130px;
         left:130px;
-        width:19px;
-        height:10px; /* this is the height for 50 DIVs */
+        width:17px; /* value setted by hand to join all in a circle, given the number */
+        height:10px; /* this is the height (extrusion) */
         background:#026873;
     }
 
@@ -250,7 +256,7 @@
         -moz-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
         -ms-box-shadow:inset 0 0 5px rgba(255, 255, 255, 0.2), inset 5px 10px 10px rgba(255, 255, 255, 0.2), inset -5px -10px 10px rgba(255, 255, 255, 0.2);
     }
-    
+
 /* ------- DIGITAL CLOCK - JS works with this elements ------ */
 
 div.innerCenter { /* Circle inside clock */

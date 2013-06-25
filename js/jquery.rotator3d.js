@@ -3,9 +3,8 @@
     // By molokoloco@gmail.com 05/2013
     
     // Demo : http://molokoloco.github.io/flatClock3d/
-    
-    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // GitHub sources : https://github.com/molokoloco/flatClock3d
+    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
    =============================================================
@@ -122,6 +121,8 @@
                 rotateY: rotationY
             });
             if (this.shadow) this.shadow.css({
+                // jQuery transit do not manage translateZ()
+                // http://ricostacruz.com/jquery.transit/
                 rotateX: rotationX - 180,
                 rotateY: rotationY - 180
             });
