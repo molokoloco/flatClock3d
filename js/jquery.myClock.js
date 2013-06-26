@@ -8,11 +8,15 @@
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
    =============================================================
-    // Usage example...
+    // Usages example...
 
-    $('#clock').analogueClock({ // Create Clock
-        withDate:false,
-        withDigitalTime:false
+    $('#container').circalise({
+        targets: '.elements',
+        rotateTargets: true
+    });
+    
+    $('#clock').analogueClock({
+        withDate:true
     });
 
 * ============================================================== */
@@ -26,15 +30,18 @@
     $.fn.extend({ // Extend jQuery with custom plugin
 
         // Distribute elements clockwise inside a box
+        // Use top and left by default
+        // Can also use only transform (with jquery.transit.js for crossbrowser)
+        
         circalise: function (options) { // $('div').circalise({targets:'div.unit'});
             
             options = $.extend({
-                targets: '> *', // childs elements to distribute inside this box
-                rotateTargets: false,
-                rotate3d: false,
-                startAngle: 270, // 270deg, start at top center (like a clock)
-                xRadius: null, // default radius to the radius of the box, minus target width
-                yRadius: null
+                targets:        '> *', // childs elements to distribute inside this box
+                rotateTargets:  false, // Targets keep (2D) tangents along the circle ?
+                rotate3d:       false, // Targets are placed like a 3D cylinder extrusion ?
+                startAngle:     270,   // 270deg, start at top center (like a clock)
+                xRadius:        null,  // default radius to the radius of the box, minus target width
+                yRadius:        null
             }, options || {});
 
             return this.each(function () {
@@ -42,8 +49,8 @@
                     thisW = parseInt($this.outerWidth(), 10),
                     thisH = parseInt($this.outerHeight(), 10),
                     $targets = $this.find(options.targets),
-                    increase = (Math.PI * 2) / $targets.length, // Rad cheeseCake
-                    angle = Math.PI * (options.startAngle / 180); // convert from DEG to RAD
+                    increase = (Math.PI * 2) / $targets.length,   // Rad cheeseCake (if we need to calculate tangents)
+                    angle = Math.PI * (options.startAngle / 180); // convert from DEG to RAD (2PI RAD = 360°)
                 $targets.each(function () {
                     var $target = $(this),
                         xCenter = (thisW - parseInt($target.outerWidth(), 10)) / 2,
@@ -52,17 +59,20 @@
                         yRadius = (options.yRadius || options.yRadius === 0 ? options.yRadius : yCenter),
                         params  = {
                             left: xRadius * Math.cos(angle) + xCenter,
-                            top: yRadius * Math.sin(angle) + yCenter
-                        };
+                            top:  yRadius * Math.sin(angle) + yCenter
+                        };     
                     if (options.rotateTargets || options.rotate3d) {
                         // (Math.PI/2) == 90deg in rad : rotate to keep tangent
                         var tanRot = Math.atan2(params.top - yCenter, params.left - xCenter) + (Math.PI / 2);
                         if (/e-/.test(tanRot+'')) tanRot = 0; // Infinity detected ?
-                        tanRot = tanRot + 'rad';
-                        if (options.rotate3d) params.transform = 'rotateX(90deg) rotateY('+tanRot+')';
-                        else params.transform = 'rotate('+tanRot+')';
+                        if (options.rotate3d)
+                            params.transform = 'translate('+params.left+'px, '+params.top+'px) rotateX(90deg) rotateY('+tanRot+'rad)';
+                        else
+                            params.transform = 'translate('+params.left+'px, '+params.top+'px) rotate('+tanRot+'rad)';
+                        delete params.left;
+                        delete params.top;
                     }
-                    $target.transition(params, (window.isMobile ? 0 : 800));
+                    $target.css(params);
                     angle += increase;
                 });
                 return $this;
@@ -70,6 +80,8 @@
         },
 
         // Analogue Clock plugin
+		// Heavy reliable on the CSS Part...
+		
         analogueClock: function (options) {
             
             options = $.extend({ // Default values

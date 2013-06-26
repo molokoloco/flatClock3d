@@ -15,7 +15,7 @@ $(function () { // DOM READY /////////////////////
     if (!Modernizr.csstransforms3d) {
         console.log('Sad, your computer doesn\'t support CSS 3D');
         // blacklisted graphics cards with only browser software emulation will rotate in 3D but fail with clock background
-        $('#clockBack,#refletBack').remove(); 
+        $('#clockBack,#refletBack,#clockBorder').remove(); 
     }
     
     var $window     = $(window),
@@ -30,6 +30,7 @@ $(function () { // DOM READY /////////////////////
     
     var cW          = $rotator.outerWidth(),
         cH          = $rotator.outerHeight(),
+		is3d        = true,
         browser     = null,
         scale       = 0,
         scaleMin    = 0.2,
@@ -56,17 +57,6 @@ $(function () { // DOM READY /////////////////////
     $window
         .on('resize', callScaleToFit)
         .trigger('resize');
-    
-    /*
-    var landscapeOrientation = window.innerWidth/window.innerHeight > 1;
-    if ( e.rotationRate )
-        switch (window.orientation) {
-             case 90: break;
-             case -90: break;
-             case 180: break;
-             default: break;
-        }
-    */
 
     // Create Clock with plugin
     $clock.analogueClock({ 
@@ -93,15 +83,19 @@ $(function () { // DOM READY /////////////////////
         viewsNum    = views.length,
         viewCurrent = 0;
 
-    $toggleView.on('click', function() { 
+    $toggleView.on('click', function() {
+		$(this).find('span').remove();
+		if (!is3d) $d3.trigger('click');
         if (viewCurrent < viewsNum)  {
             $rotator.addClass('smoothTransTransition');
             $rotator.rotator3d('presets', views[viewCurrent]); // Presets views
+			$('<span>&nbsp;'+views[viewCurrent]+'</span>').appendTo(this).fadeOut(0).fadeIn(150).fadeOut(1000);
         }
         else {
             $rotator.rotator3d('presets'); // Reset, switch to mouse control
             viewCurrent = 0;
             $rotator.removeClass('smoothTransTransition');
+			$('<span>&nbsp;FlyOver</span>').appendTo(this).fadeOut(0).fadeIn(150).fadeOut(1000);
         }
         viewCurrent++;
     });
@@ -113,13 +107,15 @@ $(function () { // DOM READY /////////////////////
     
     // Test with/out transform (2D and 3D)
     $d3.on('click', function() { 
-        if (scaleMax == 1.5) { // reset scale 2D too
-            scaleMax = 1;
+        if (is3d) { // reset scale 2D too
+			is3d = false;
+			scaleMax = 1;
             scaleMin = 1;
             $('#clockBack,#refletBack,#clockBorder,#shadow').hide();
         }
-        else {
-            scaleMax = 1.5;
+        else { // Re go 3D
+            is3d = true;
+			scaleMax = 1.5;
             scaleMin = 0.2;
             if (Modernizr.csstransforms3d)
                 $('#clockBack,#refletBack,#clockBorder,#shadow').show();
