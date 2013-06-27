@@ -4,7 +4,8 @@
     
     // Demo : http://molokoloco.github.io/flatClock3d/
     // GitHub sources : https://github.com/molokoloco/flatClock3d
-    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
+    // Documentation : http://tinyurl.com/flatclock3d
+    // Blog post : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
    =============================================================
@@ -18,7 +19,9 @@
         rotationY: -18
     });
     
-    $cssBox3d.rotator3d('toggle3d');
+    $cssBox3d.rotator3d('toggle3d');            // Remove 3D effect (some elements and CSS)
+    
+    $rotator.rotator3d('presets', 'sideRight'); // Call "sideRight" preset rotation view
 
 * ============================================================== */
 
@@ -103,15 +106,10 @@
         
         constructor: rotator3d,
         
-        limitedValue: function (value, miin, maax) {
-            if (value <= miin) {
-                value += 360;
-                if (value < miin) value = this.limitedValue(value, miin, maax);
-            }
-            else if (value > maax) {
-                value -= 360;
-                if (value > maax) value = this.limitedValue(value, miin, maax);
-            }
+        limitRotationValue: function (value, miin, maax) {
+            if (value <= miin)     value += 360;
+            else if (value > maax) value -= 360;
+            value = Math.min(Math.max(parseInt(value), miin), maax);
             return value;
         },
         
@@ -121,22 +119,19 @@
                 rotateY: rotationY
             });
             if (this.shadow) this.shadow.css({
-                // jQuery transit do not manage translateZ()
-                // http://ricostacruz.com/jquery.transit/
                 rotateX: rotationX - 180,
                 rotateY: rotationY - 180
             });
+            // jQuery transit do not manage translateZ() // http://ricostacruz.com/jquery.transit/
+            // translate moved to #shadowBox container CSS
             // if (this.shadow) this.shadow.css({
                 // transform:'translate3d(80px,80px,-400px) rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg) scale(2)'
-                // translate moved to #shadowBox container
-                // transform:'rotateY('+(rotationY)+'deg) rotateX('+(rotationX)+'deg)'
-                // Does not produce the same rotation as the jqueryTransit above ?
             // });
             if (this.reflet) this.reflet.css({
-                backgroundPosition: this.limitedValue(rotationY, -180, 180) * -5 + 'px 0' //this.limitedValue(rotationY, -180, 180)
+                backgroundPosition:(this.limitRotationValue(rotationY, -180, 180) * -5) + 'px '+(this.limitRotationValue(rotationX, -180, 180) * -1)+'px'
             });
             if (this.refletBack) this.refletBack.css({
-                backgroundPosition: this.limitedValue(rotationY, -180, 180) * 5 + 'px 0'
+                backgroundPosition:(this.limitRotationValue(rotationY, -180, 180) * 5) + 'px '+(this.limitRotationValue(rotationX, -180, 180))+'px'
             });
         },
         
@@ -220,15 +215,15 @@
     // Some Presets values
     // Ex. : $e.rotator3d('presets', 'squareRoot');
     $.fn.rotator3d.views = { // Perspective if from : #content { -webkit-transform-origin: 0px 0px; }
-        front:       {x: 0, y: 0},
-        back:        {x: 0, y: 180},
-        appleFront:  {x: 0, y: -30}, 
-        appleBack:   {x: 0, y: -140},
-        frontFloor:  {x: 0, y: 90},
-        backFloor:   {x: 0, y: -90},
+        front:       {x: 0,   y: 0},
+        back:        {x: 0,   y: 180},
+        appleFront:  {x: 0,   y: -30}, 
+        appleBack:   {x: 0,   y: -140},
+        frontFloor:  {x: 0,   y: 90},
+        backFloor:   {x: 0,   y: -90},
         sideRight:   {x: -90, y: 0},
-        sideLeft:    {x: 90, y: 0},
-        squareRoot:  {x: 45, y: 45}
+        sideLeft:    {x: 90,  y: 0},
+        squareRoot:  {x: 45,  y: 45}
     };
     
 

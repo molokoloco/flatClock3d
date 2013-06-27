@@ -4,7 +4,8 @@
     
     // Demo : http://molokoloco.github.io/flatClock3d/
     // GitHub sources : https://github.com/molokoloco/flatClock3d
-    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
+    // Documentation : http://tinyurl.com/flatclock3d
+    // Blog post : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
    =============================================================
@@ -80,8 +81,8 @@
         },
 
         // Analogue Clock plugin
-		// Heavy reliable on the CSS Part...
-		
+        // Heavy reliable on the CSS Part...
+        
         analogueClock: function (options) {
             
             options = $.extend({ // Default values

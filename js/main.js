@@ -4,7 +4,8 @@
     
     // Demo : http://molokoloco.github.io/flatClock3d/
     // GitHub sources : https://github.com/molokoloco/flatClock3d
-    // Infos : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
+    // Documentation : http://tinyurl.com/flatclock3d
+    // Blog post : http://www.b2bweb.fr/coding-project/mutli-screen-flat-3d-analogue-clock-with-jquery-and-css3-v2-3/
     // jsFiddle 2D : http://jsfiddle.net/molokoloco/V2rFN/
     // jsFiddle + 3D : http://jsfiddle.net/molokoloco/x6yc3/
    =============================================================
@@ -24,13 +25,13 @@ $(function () { // DOM READY /////////////////////
         $clock      = $('#clock'),
         $shadow     = $('#shadow'),
         $emboss     = $('#emboss'),
-        $wireframe  = $('#wireframe'),
+        $xray       = $('#xray'),
         $toggleView = $('#toggleView'),
         $d3         = $('#d3');
     
     var cW          = $rotator.outerWidth(),
         cH          = $rotator.outerHeight(),
-		is3d        = true,
+        is3d        = true,
         browser     = null,
         scale       = 0,
         scaleMin    = 0.2,
@@ -79,43 +80,46 @@ $(function () { // DOM READY /////////////////////
     });
     
     // Preset views (Link commented in index.html example)
-    var views       = ['front', 'back', 'appleFront', 'appleBack', 'frontFloor', 'backFloor', 'sideRight', 'sideLeft', 'squareRoot'],
-        viewsNum    = views.length,
+    var views       = [], // ["front", "back", "appleFront", "appleBack", "frontFloor", "backFloor", "sideRight", "sideLeft", "squareRoot"]
+        viewsNum    = 0,
         viewCurrent = 0;
 
+    for (var k in $rotator.rotator3d.views) views.push(k); // Convert views to simple array of name
+    viewsNum = views.length;
+
     $toggleView.on('click', function() {
-		$(this).find('span').remove();
-		if (!is3d) $d3.trigger('click');
+        $(this).find('span').remove();
+        if (!is3d) $d3.trigger('click');
         if (viewCurrent < viewsNum)  {
             $rotator.addClass('smoothTransTransition');
-            $rotator.rotator3d('presets', views[viewCurrent]); // Presets views
-			$('<span>&nbsp;'+views[viewCurrent]+'</span>').appendTo(this).fadeOut(0).fadeIn(150).fadeOut(1000);
+            $rotator.rotator3d('presets', views[viewCurrent]/* 'appleFront' */); // Presets views
+            $('<span>&nbsp;'+views[viewCurrent]+'</span>').appendTo(this).fadeOut(0).fadeIn(150).fadeOut(1000);
         }
         else {
             $rotator.rotator3d('presets'); // Reset, switch to mouse control
             viewCurrent = 0;
             $rotator.removeClass('smoothTransTransition');
-			$('<span>&nbsp;FlyOver</span>').appendTo(this).fadeOut(0).fadeIn(150).fadeOut(1000);
+            $('<span>&nbsp;FlyOver</span>').appendTo(this).fadeOut(0).fadeIn(150).fadeOut(1000);
         }
         viewCurrent++;
     });
     
-    $wireframe.on('click', function() { 
-        if ($content.is('.wireframe')) $content.removeClass('wireframe');
-        else                           $content.addClass('wireframe');
+    $xray.on('click', function() { 
+        if ($content.is('.xray')) $content.removeClass('xray');
+        else                      $content.addClass('xray');
     });
     
     // Test with/out transform (2D and 3D)
     $d3.on('click', function() { 
         if (is3d) { // reset scale 2D too
-			is3d = false;
-			scaleMax = 1;
+            is3d = false;
+            scaleMax = 1;
             scaleMin = 1;
             $('#clockBack,#refletBack,#clockBorder,#shadow').hide();
         }
         else { // Re go 3D
             is3d = true;
-			scaleMax = 1.5;
+            scaleMax = 1.5;
             scaleMin = 0.2;
             if (Modernizr.csstransforms3d)
                 $('#clockBack,#refletBack,#clockBorder,#shadow').show();
